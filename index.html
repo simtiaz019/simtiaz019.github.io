@@ -10,285 +10,178 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
-    .avatar { position: fixed; right: 24px; bottom: 24px; width: 72px; height: 72px; border-radius: 9999px; box-shadow: 0 10px 20px rgba(0,0,0,.15); z-index: 60; border: 3px solid #2563eb; }
+    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji'; }
+    .avatar { position: fixed; right: 24px; bottom: 24px; width: 72px; height: 72px; border-radius: 9999px; box-shadow: 0 10px 20px rgba(0,0,0,.25); z-index: 60; border: 3px solid rgba(255,255,255,.85); background: #fff; }
     .bubble { position: fixed; right: 110px; bottom: 42px; max-width: 360px; z-index: 50; }
     .section { scroll-margin-top: 96px; }
     .active-dot { transform: scale(1.15); }
-    .theme-gradient { background: linear-gradient(135deg, #2563eb, #9333ea); color: white; }
+    @media (max-width: 768px) {
+      .avatar { right: 16px; bottom: 16px; width: 60px; height: 60px; }
+      .bubble { right: 88px; bottom: 28px; left: 16px; }
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
+  <!-- OCI logo top-right -->
+  <a href="#home" class="fixed right-4 top-4 z-[70] inline-flex items-center gap-2 rounded-xl bg-white/90 backdrop-blur px-3 py-2 border border-slate-200 shadow">
+    <img src="oci.png" alt="OCI" class="h-6 w-auto"/>
+    <span class="hidden sm:inline text-xs font-semibold text-slate-700">Oracle Cloud Infrastructure</span>
+  </a>
+
+  <!-- Floating avatar & bubble guide (bottom-right) -->
   <img src="avatar.png" alt="Shariar avatar" class="avatar object-cover" />
   <div id="coach-bubble" class="bubble hidden">
     <div class="relative">
-      <div class="rounded-2xl bg-white/95 backdrop-blur border border-slate-200 p-4 shadow-xl">
+      <div class="rounded-2xl bg-white/90 backdrop-blur border border-slate-200 p-4 shadow-xl">
         <p id="coach-text" class="text-sm leading-5"></p>
       </div>
       <div class="absolute -right-3 bottom-8 rotate-45 w-4 h-4 bg-white border-r border-b border-slate-200"></div>
     </div>
   </div>
 
-  <!-- Header / Hero -->
-  <header class="section theme-gradient" id="home">
-    <div class="mx-auto max-w-5xl px-6 pt-32 pb-16">
-      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">Shariar Imtiaz</h1>
-      <p class="mt-4 text-lg md:text-xl opacity-90">Data Engineer · Data Architect · Big Data & AI Platform Specialist</p>
-      <p class="mt-3 opacity-80 max-w-2xl">11+ years building high‑scale data platforms, cloud solutions, and AI‑ready infrastructure across telecom, e‑commerce and cloud providers.</p>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <a href="#experience" class="px-4 py-2 rounded-xl bg-white/20 text-white hover:bg-white/40">Experience</a>
-        <a href="#projects" class="px-4 py-2 rounded-xl bg-white/20 text-white hover:bg-white/40">Projects</a>
-        <a href="#skills" class="px-4 py-2 rounded-xl bg-white/20 text-white hover:bg-white/40">Skills</a>
-        <a href="#education" class="px-4 py-2 rounded-xl bg-white/20 text-white hover:bg-white/40">Education</a>
-        <a href="#contact" class="px-4 py-2 rounded-xl bg-white/20 text-white hover:bg-white/40">Contact</a>
+  <!-- Header / Hero with gradient color -->
+  <header class="section relative" id="home">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-indigo-600 via-indigo-500 to-sky-500"></div>
+    <div class="mx-auto max-w-6xl px-6 pt-28 pb-16">
+      <div class="flex flex-col md:flex-row items-center gap-10">
+        <!-- 3D Profile Image -->
+        <div class="relative group">
+          <div class="absolute -inset-1 rounded-3xl bg-[conic-gradient(at_top_left,_white,_#a5b4fc,_#7dd3fc,_#a5b4fc,_white)] opacity-60 blur-xl group-hover:opacity-80 transition"></div>
+          <div class="relative w-44 h-44 md:w-56 md:h-56 [perspective:1200px]">
+            <div class="w-full h-full rounded-3xl shadow-2xl ring-4 ring-white/20 bg-white overflow-hidden transform-gpu" style="transform: rotateY(6deg) rotateX(3deg); transition: transform .5s;">
+              <img src="profile.jpg" alt="Shariar Imtiaz" class="w-full h-full object-cover"/>
+            </div>
+          </div>
+        </div>
+        <!-- Intro Text -->
+        <div class="flex-1 text-white">
+          <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">Shariar Imtiaz</h1>
+          <p class="mt-4 text-lg md:text-xl/7 text-indigo-50">Data Engineer · Data Architect · Big Data & AI Platform Specialist</p>
+          <p class="mt-3 text-indigo-100 max-w-2xl">11+ years building high‑scale data platforms, cloud solutions, and AI‑ready infrastructure across telecom, e‑commerce and cloud providers.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#experience" class="px-4 py-2 rounded-xl bg-white text-slate-900 hover:bg-indigo-50">Experience</a>
+            <a href="#projects" class="px-4 py-2 rounded-xl bg-white/10 ring-1 ring-white/30 text-white hover:bg-white/20">Projects</a>
+            <a href="#skills" class="px-4 py-2 rounded-xl bg-white/10 ring-1 ring-white/30 text-white hover:bg-white/20">Skills</a>
+            <a href="#education" class="px-4 py-2 rounded-xl bg-white/10 ring-1 ring-white/30 text-white hover:bg-white/20">Education</a>
+            <a href="#contact" class="px-4 py-2 rounded-xl bg-white/10 ring-1 ring-white/30 text-white hover:bg-white/20">Contact</a>
+          </div>
+        </div>
+        <!-- Side Navigator (desktop) -->
+        <nav aria-label="Section navigator" class="hidden md:block md:w-48">
+          <ul class="flex md:flex-col gap-5 mt-2">
+            <li><a href="#home" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Home</a></li>
+            <li><a href="#experience" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Experience</a></li>
+            <li><a href="#projects" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Projects</a></li>
+            <li><a href="#skills" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Skills</a></li>
+            <li><a href="#education" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Education</a></li>
+            <li><a href="#contact" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Contact</a></li>
+          </ul>
+        </nav>
       </div>
     </div>
   </header>
 
-  <main class="bg-slate-50">
-    <section class="section" id="experience">
-      <div class="mx-auto max-w-5xl px-6 py-16">
-        <h2 class="text-2xl font-bold text-blue-600">Experience</h2>
-        <div id="experience-list" class="mt-6 grid gap-6"></div>
-      </div>
-    </section>
+  <!-- Experience -->
+  <section class="section" id="experience">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <h2 class="text-2xl font-bold text-slate-900">Experience</h2>
+      <div id="experience-list" class="mt-6 grid gap-6"></div>
+    </div>
+  </section>
 
-    <section class="section bg-white" id="projects">
-      <div class="mx-auto max-w-5xl px-6 py-16">
-        <h2 class="text-2xl font-bold text-purple-600">Highlighted Projects</h2>
-        <div id="projects-grid" class="mt-6 grid md:grid-cols-2 gap-6"></div>
-      </div>
-    </section>
+  <!-- Projects -->
+  <section class="section bg-white" id="projects">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <h2 class="text-2xl font-bold text-slate-900">Highlighted Projects</h2>
+      <div id="projects-grid" class="mt-6 grid md:grid-cols-2 gap-6"></div>
+    </div>
+  </section>
 
-    <section class="section" id="skills">
-      <div class="mx-auto max-w-5xl px-6 py-16">
-        <h2 class="text-2xl font-bold text-emerald-600">Skills</h2>
-        <div id="skills-grid" class="mt-6 grid md:grid-cols-3 gap-6 text-sm"></div>
-      </div>
-    </section>
+  <!-- Skills -->
+  <section class="section" id="skills">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <h2 class="text-2xl font-bold text-slate-900">Skills</h2>
+      <div id="skills-grid" class="mt-6 grid md:grid-cols-3 gap-6 text-sm"></div>
+    </div>
+  </section>
 
-    <section class="section bg-white" id="education">
-      <div class="mx-auto max-w-5xl px-6 py-16">
-        <h2 class="text-2xl font-bold text-pink-600">Education & Certifications</h2>
-        <div id="edu-cert" class="mt-6 grid md:grid-cols-2 gap-6"></div>
-      </div>
-    </section>
+  <!-- Education & Certificates -->
+  <section class="section bg-white" id="education">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <h2 class="text-2xl font-bold text-slate-900">Education & Certifications</h2>
+      <div id="edu-cert" class="mt-6 grid md:grid-cols-2 gap-6"></div>
+    </div>
+  </section>
 
-    <section class="section" id="contact">
-      <div class="mx-auto max-w-5xl px-6 py-16">
-        <h2 class="text-2xl font-bold text-indigo-600">Contact</h2>
-        <div class="mt-6 grid md:grid-cols-2 gap-6 text-sm">
-          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <p class="text-slate-700">Dhaka, Bangladesh</p>
-            <p class="mt-1"><a href="mailto:simtiaz019@gmail.com" class="text-blue-600 underline">simtiaz019@gmail.com</a></p>
-            <p class="mt-1"><a href="tel:+8801962401593" class="underline">+880 1962 401 593</a></p>
-            <p class="mt-1"><a href="https://www.linkedin.com/in/shariar-imtiaz/" class="underline text-blue-600">LinkedIn</a></p>
-          </div>
-          <form class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" onsubmit="event.preventDefault(); alert('Thanks! Your message would be sent via your mail client.');">
-            <label class="block text-sm">Quick message (opens your mail app)</label>
-            <input id="msg" type="text" placeholder="Hi Shariar, I'd like to connect..." class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-            <button onclick="window.location='mailto:simtiaz019@gmail.com?subject=Contact%20from%20Portfolio&body='+encodeURIComponent(document.getElementById('msg').value)" class="mt-3 px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700">Send</button>
-          </form>
+  <!-- Contact -->
+  <section class="section" id="contact">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <h2 class="text-2xl font-bold text-slate-900">Contact</h2>
+    <div class="mt-6 grid md:grid-cols-2 gap-6 text-sm">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p class="text-slate-700">Dhaka, Bangladesh</p>
+          <p class="mt-1"><a href="mailto:simtiaz019@gmail.com" class="text-slate-900 underline">simtiaz019@gmail.com</a></p>
+          <p class="mt-1"><a href="tel:+8801962401593" class="underline">+880 1962 401 593</a></p>
+          <p class="mt-1"><a href="https://www.linkedin.com/in/shariar-imtiaz/" class="underline">LinkedIn</a></p>
         </div>
+        <form class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" onsubmit="event.preventDefault(); alert('Thanks! Your message would be sent via your mail client.');">
+          <label class="block text-sm">Quick message (opens your mail app)</label>
+          <input id="msg" type="text" placeholder="Hi Shariar, I'd like to connect..." class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+          <button onclick="window.location='mailto:simtiaz019@gmail.com?subject=Contact%20from%20Portfolio&body='+encodeURIComponent(document.getElementById('msg').value)" class="mt-3 px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-500">Send</button>
+        </form>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
   <footer class="py-10 text-center text-xs text-slate-500">© <span id="year"></span> Shariar Imtiaz</footer>
 
   <script>
-    // ===== The page now loads content from data.json =====
-    // If data.json is missing (local preview), it falls back to the inline defaults below.
-
+    // ===== Modular data via external data.json with fallback =====
     const fallbackData = {
-      hero: {
-        title: "Shariar Imtiaz",
-        subtitle: "Data Engineer · Data Architect · Big Data & AI Platform Specialist",
-        intro: "11+ years building high‑scale data platforms, cloud solutions, and AI‑ready infrastructure across telecom, e‑commerce and cloud providers."
-      },
-      experience: [
-        {
-          role: "Senior Technology Solution & Cloud Architect",
-          company: "Oracle",
-          location: "Dhaka, BD",
-          period: "Apr 2025 – Present",
-          bullets: [
-            "Architected secure, cost‑optimized data platforms aligned with PCI DSS & ISO; reduced TCO and achieved 99.99% availability with DR.",
-            "Built AI‑centric data solutions using Oracle Database 23ai (Select AI, Vector Search) with GenAI connectors for RAG and semantic search.",
-            "Designed high‑availability Oracle Database architectures (Exadata, RAC, GoldenGate, ADG)."
-          ]
-        },
-        {
-          role: "VMAX Engineer",
-          company: "ZTE Bangladesh",
-          location: "Dhaka, BD",
-          period: "Jan 2025 – Apr 2025",
-          bullets: [
-            "Monitored VMAX Big Data Platform; performed RCA on incidents and supported changes.",
-            "Analyzed KQI/QoE metrics and produced customer complaint analysis reports."
-          ]
-        },
-        {
-          role: "Senior Data Engineer",
-          company: "Raena (Alpha Wave)",
-          location: "Abu Dhabi, UAE",
-          period: "May 2022 – Oct 2024",
-          bullets: [
-            "80% faster inventory processing via Kafka; 30% cheaper & faster analytics after migrating to Redshift.",
-            "20+ real‑time BI dashboards; ETL orchestration with Airflow cut reporting time by 60%."
-          ]
-        },
-        {
-          role: "Big Data Platform & CVM Lead Engineer",
-          company: "Banglalink",
-          location: "Dhaka, BD",
-          period: "Apr 2020 – Apr 2022",
-          bullets: [
-            "Engineered 100TB/day big data platform with NiFi, Airflow, Kafka, Ignite & Cassandra (99% uptime).",
-            "Java Spring Boot trigger framework handling 400B+ events daily; ~$9M revenue uplift in one week.",
-            "Teradata → CDP offloading cut storage by 40% and boosted query speed by 25%."
-          ]
-        }
-      ],
-      projects: [
-        { title: "IPDR Data Pipeline — Banglalink", summary: "Spark‑based framework processing 6TB+ daily (40B+ records) with Airflow scheduling, real‑time alerts, and backlog recovery." },
-        { title: "DMP Triggers Framework — Banglalink", summary: "Java Spring Boot + Kafka/Ignite system handling 400B+ daily events and automating notifications, reporting, and scaling." },
-        { title: "Clevertap Data Processing — Raena", summary: "PySpark + EMR pipeline on S3 data lake; Airflow automation for near real‑time user journey insights." },
-        { title: "Teradata Backup & Offloading — Banglalink", summary: "Python + Airflow solution for full/incremental backups; 40% storage reduction and low‑cost archival in CDP." }
-      ],
-      skills: [
-        { group: "Data Engineering", items: "Spark (PySpark), NiFi, Airflow, Databricks, Sqoop, EMR, Informatica, Data Factory" },
-        { group: "Streaming & Messaging", items: "Kafka, RabbitMQ" },
-        { group: "Databases", items: "Oracle, MySQL, Cassandra, Ignite, MongoDB, Redshift, Teradata, PostgreSQL" },
-        { group: "Cloud Platforms", items: "AWS, Azure, Oracle Cloud Infrastructure (OCI)" },
-        { group: "Scripting & Languages", items: "Python, Java, Shell" },
-        { group: "Monitoring & Visualization", items: "Prometheus, Grafana, Metabase" }
-      ],
-      education: {
-        degrees: [
-          { title: "Masters, Information Technology", org: "Jahangirnagar University", period: "2015–2016", location: "Dhaka, Bangladesh" },
-          { title: "BSc, Computer Science & Engineering", org: "Ahsanullah University of Science and Technology", period: "2009–2013", location: "Dhaka, Bangladesh" }
-        ],
-        certs: [
-          { title: "OCI 2025 AI Foundations OCA", period: "Jun 2025" },
-          { title: "OCI 2025 Foundations OCA", period: "Apr 2025" },
-          { title: "Azure Data Engineer Associate", period: "Feb 2024" }
-        ]
-      }
+      hero: { title: 'Shariar Imtiaz', subtitle: 'Data Engineer · Data Architect · Big Data & AI Platform Specialist', intro: '11+ years building high‑scale data platforms, cloud solutions, and AI‑ready infrastructure across telecom, e‑commerce and cloud providers.' },
+      experience: [], projects: [], skills: [], education: { degrees: [], certs: [] }
     };
 
-    // Helper: create element
     const el = (tag, classes = '', html = '') => { const e = document.createElement(tag); if (classes) e.className = classes; if (html) e.innerHTML = html; return e; };
 
-    // Renderers
     function renderExperience(list){
-      const wrap = document.getElementById('experience-list');
-      wrap.innerHTML = '';
+      const wrap = document.getElementById('experience-list'); wrap.innerHTML='';
       list.forEach(job => {
-        const card = el('article', 'rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition shadow-');
-        card.appendChild(el('div','flex items-center justify-between gap-4', `
-          <h3 class=\"text-lg font-semibold text-slate-900\">${job.role} — ${job.company}</h3>
-          <span class=\"text-xs text-slate-500\">${job.period} · ${job.location}</span>
-        `));
-        const ul = el('ul','mt-3 list-disc pl-5 text-sm text-slate-700 space-y-2');
-        job.bullets.forEach(b => ul.appendChild(el('li','', b)));
-        card.appendChild(ul);
+        const card = el('article','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition');
+        card.appendChild(el('div','flex items-center justify-between gap-4', `<h3 class="text-lg font-semibold text-slate-900">${job.role} — ${job.company}</h3><span class="text-xs text-slate-500">${job.period} · ${job.location}</span>`));
+        const ul = el('ul','mt-3 list-disc pl-5 text-sm text-slate-700 space-y-2'); job.bullets.forEach(b => ul.appendChild(el('li','', b))); card.appendChild(ul);
         wrap.appendChild(card);
       });
     }
-
     function renderProjects(items){
-      const grid = document.getElementById('projects-grid');
-      grid.innerHTML = '';
-      items.forEach(p => {
-        const card = el('article','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition');
-        card.appendChild(el('div','text-xs font-medium uppercase tracking-wide text-indigo-600','Project'));
-        card.appendChild(el('h3','mt-1 font-semibold text-slate-900', p.title));
-        card.appendChild(el('p','mt-2 text-sm text-slate-700', p.summary));
-        grid.appendChild(card);
-      });
+      const grid = document.getElementById('projects-grid'); grid.innerHTML='';
+      items.forEach(p => { const c=el('article','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition'); c.appendChild(el('div','text-xs font-medium uppercase tracking-wide text-indigo-600','Project')); c.appendChild(el('h3','mt-1 font-semibold text-slate-900', p.title)); c.appendChild(el('p','mt-2 text-sm text-slate-700', p.summary)); grid.appendChild(c); });
     }
-
-    function renderSkills(groups){
-      const grid = document.getElementById('skills-grid');
-      grid.innerHTML = '';
-      groups.forEach(g => {
-        const card = el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm');
-        card.appendChild(el('h3','font-semibold text-slate-900', g.group));
-        card.appendChild(el('p','mt-2 text-slate-700', g.items));
-        grid.appendChild(card);
-      });
-    }
-
-    function renderEduCert(edu){
-      const grid = document.getElementById('edu-cert');
-      grid.innerHTML = '';
-      const eduCard = el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm');
-      eduCard.appendChild(el('h3','font-semibold text-slate-900','Education'));
-      const eduList = el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1');
-      edu.degrees.forEach(d => eduList.appendChild(el('li','', `${d.title} — ${d.org} (${d.period})`)));
-      eduCard.appendChild(eduList);
-
-      const certCard = el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm');
-      certCard.appendChild(el('h3','font-semibold text-slate-900','Certifications'));
-      const certList = el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1');
-      edu.certs.forEach(c => certList.appendChild(el('li','', `${c.title} (${c.period})`)));
-      certCard.appendChild(certList);
-
-      grid.appendChild(eduCard);
-      grid.appendChild(certCard);
-    }
+    function renderSkills(groups){ const grid=document.getElementById('skills-grid'); grid.innerHTML=''; groups.forEach(g=>{ const c=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm'); c.appendChild(el('h3','font-semibold text-slate-900', g.group)); c.appendChild(el('p','mt-2 text-slate-700', g.items)); grid.appendChild(c); }); }
+    function renderEduCert(edu){ const grid=document.getElementById('edu-cert'); grid.innerHTML=''; const eC=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm'); eC.appendChild(el('h3','font-semibold text-slate-900','Education')); const eL=el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1'); (edu.degrees||[]).forEach(d=>eL.appendChild(el('li','', `${d.title} — ${d.org} (${d.period})`))); eC.appendChild(eL); const cC=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm'); cC.appendChild(el('h3','font-semibold text-slate-900','Certifications')); const cL=el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1'); (edu.certs||[]).forEach(c=>cL.appendChild(el('li','', `${c.title} (${c.period})`))); cC.appendChild(cL); grid.appendChild(eC); grid.appendChild(cC); }
 
     // Avatar coach messages per section
-    const messages = {
-      home: "Hey! I’m Shariar. Scroll down and I’ll guide you through my work.",
-      experience: "Here’s a quick tour of my recent roles and impact.",
-      projects: "Some projects I’m proud of—high‑scale data, streaming, and analytics.",
-      skills: "My core toolbox across data engineering, cloud, and databases.",
-      education: "Degrees & certifications that back up the hands‑on work.",
-      contact: "Let’s connect—email, phone, or LinkedIn works best."
-    };
+    const messages = { home: 'Hey! I’m Shariar. Scroll down and I’ll guide you through my work.', experience: 'Here’s a quick tour of my recent roles and impact.', projects: 'Some projects I’m proud of—high‑scale data, streaming, and analytics.', skills: 'My core toolbox across data engineering, cloud, and databases.', education: 'Degrees & certifications that back up the hands‑on work.', contact: 'Let’s connect—email, phone, or LinkedIn works best.' };
 
     const bubble = document.getElementById('coach-bubble');
-    const text = document.getElementById('coach-text');
+    const coachText = document.getElementById('coach-text');
     const sections = ['home','experience','projects','skills','education','contact'].map(id => ({ id, el: document.getElementById(id) }));
 
     const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          const id = e.target.id;
-          text.textContent = messages[id] || '';
-          bubble.classList.remove('hidden');
-          document.querySelectorAll('nav a span').forEach(dot => dot.classList.remove('bg-indigo-600','active-dot'));
-          const link = document.querySelector(`nav a[href="#${id}"] span`);
-          if (link) link.classList.add('bg-indigo-600','active-dot');
-        }
-      });
+      entries.forEach(e => { if (e.isIntersecting) { const id=e.target.id; coachText.textContent = messages[id] || ''; bubble.classList.remove('hidden'); document.querySelectorAll('.nav-dot').forEach(dot => dot.classList.remove('bg-white','bg-indigo-600','active-dot')); const link = document.querySelector(`a[href="#${id}"] .nav-dot`); if (link) link.classList.add('bg-white','active-dot'); } });
     }, { threshold: 0.5 });
 
-    // Load remote data.json then render; otherwise use fallback
     async function init(){
       document.getElementById('year').textContent = new Date().getFullYear();
       let data = fallbackData;
-      try {
-        const res = await fetch('./data.json', { cache: 'no-store' });
-        if (res.ok) data = await res.json();
-      } catch (e) { /* keep fallback */ }
-
-      // Update hero text if provided
+      try { const res = await fetch('./data.json', { cache: 'no-store' }); if (res.ok) data = await res.json(); } catch (e) {}
       if (data.hero) {
-        const h1 = document.querySelector('#home h1');
-        const p1 = document.querySelector('#home p:nth-of-type(1)');
-        const p2 = document.querySelector('#home p:nth-of-type(2)');
+        const h1 = document.querySelector('#home h1'); const p1 = document.querySelector('#home p:nth-of-type(1)'); const p2 = document.querySelector('#home p:nth-of-type(2)');
         if (h1 && data.hero.title) h1.textContent = data.hero.title;
         if (p1 && data.hero.subtitle) p1.textContent = data.hero.subtitle;
         if (p2 && data.hero.intro) p2.textContent = data.hero.intro;
       }
-
-      renderExperience(data.experience || []);
-      renderProjects(data.projects || []);
-      renderSkills(data.skills || []);
-      renderEduCert(data.education || { degrees: [], certs: [] });
+      renderExperience(data.experience || []); renderProjects(data.projects || []); renderSkills(data.skills || []); renderEduCert(data.education || { degrees: [], certs: [] });
       sections.forEach(s => io.observe(s.el));
     }
 
