@@ -11,27 +11,27 @@
   <style>
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji'; }
-    /* Avatar coach bubble */
-    .bubble { position: fixed; left: 96px; top: 120px; max-width: 320px; z-index: 50; }
-    .avatar { position: fixed; left: 24px; top: 96px; width: 64px; height: 64px; border-radius: 9999px; box-shadow: 0 10px 20px rgba(0,0,0,.15); z-index: 60; }
+    /* Avatar coach bubble — moved to bottom-right */
+    .avatar { position: fixed; right: 24px; bottom: 24px; width: 72px; height: 72px; border-radius: 9999px; box-shadow: 0 10px 20px rgba(0,0,0,.15); z-index: 60; }
+    .bubble { position: fixed; right: 110px; bottom: 42px; max-width: 360px; z-index: 50; }
     .section { scroll-margin-top: 96px; }
     .active-dot { transform: scale(1.15); }
 
     @media (max-width: 768px) {
-      .avatar { position: fixed; left: 16px; top: 16px; width: 56px; height: 56px; }
-      .bubble { position: fixed; left: 84px; top: 16px; right: 16px; }
+      .avatar { right: 16px; bottom: 16px; width: 60px; height: 60px; }
+      .bubble { right: 88px; bottom: 28px; left: 16px; }
     }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
-  <!-- Floating avatar & bubble guide -->
+  <!-- Floating avatar & bubble guide (bottom-right) -->
   <img src="avatar.png" alt="Shariar avatar" class="avatar object-cover" />
   <div id="coach-bubble" class="bubble hidden">
     <div class="relative">
       <div class="rounded-2xl bg-white/90 backdrop-blur border border-slate-200 p-4 shadow-xl">
         <p id="coach-text" class="text-sm leading-5"></p>
       </div>
-      <div class="absolute -left-3 top-8 rotate-45 w-4 h-4 bg-white border-l border-t border-slate-200"></div>
+      <div class="absolute -right-3 bottom-8 rotate-45 w-4 h-4 bg-white border-r border-b border-slate-200"></div>
     </div>
   </div>
 
@@ -47,12 +47,13 @@
             <a href="#experience" class="px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-700">Experience</a>
             <a href="#projects" class="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100">Projects</a>
             <a href="#skills" class="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100">Skills</a>
+            <a href="#education" class="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100">Education</a>
             <a href="#contact" class="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100">Contact</a>
           </div>
         </div>
         <nav aria-label="Section navigator" class="md:w-48 w-full">
           <ul class="flex md:flex-col gap-4 md:gap-6 md:mt-0 mt-4">
-            <li><a href="#home" class="group flex items-center gap-3 text-sm"><span class="w-2 h-2 rounded-full bg-slate-300 group-[.active]:bg-slate-900"></span>Home</a></li>
+            <li><a href="#home" class="group flex items-center gap-3 text-sm"><span class="w-2 h-2 rounded-full bg-slate-300"></span>Home</a></li>
             <li><a href="#experience" class="group flex items-center gap-3 text-sm"><span class="w-2 h-2 rounded-full bg-slate-300"></span>Experience</a></li>
             <li><a href="#projects" class="group flex items-center gap-3 text-sm"><span class="w-2 h-2 rounded-full bg-slate-300"></span>Projects</a></li>
             <li><a href="#skills" class="group flex items-center gap-3 text-sm"><span class="w-2 h-2 rounded-full bg-slate-300"></span>Skills</a></li>
@@ -68,47 +69,7 @@
   <section class="section" id="experience">
     <div class="mx-auto max-w-5xl px-6 py-16">
       <h2 class="text-2xl font-bold">Experience</h2>
-      <div class="mt-6 grid gap-6">
-        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div class="flex items-center justify-between gap-4">
-            <h3 class="text-lg font-semibold">Senior Technology Solution & Cloud Architect — Oracle</h3>
-            <span class="text-xs text-slate-500">Apr 2025 – Present · Dhaka, BD</span>
-          </div>
-          <ul class="mt-3 list-disc pl-5 text-sm text-slate-700 space-y-2">
-            <li>Architected secure, cost‑optimized data platforms aligned with PCI DSS & ISO; reduced TCO and achieved 99.99% availability with DR.</li>
-            <li>Delivered Exadata/RAC/GoldenGate/ADG designs; built AI‑centric data solutions using Oracle Database 23ai (Select AI, Vector Search).</li>
-            <li>Integrated OpenAI/GenAI connectors for RAG‑ready platforms, semantic search, and intelligent analytics.</li>
-          </ul>
-        </article>
-        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div class="flex items-center justify-between gap-4">
-            <h3 class="text-lg font-semibold">VMAX Engineer — ZTE Bangladesh</h3>
-            <span class="text-xs text-slate-500">Jan 2025 – Apr 2025 · Dhaka, BD</span>
-          </div>
-          <p class="mt-2 text-sm text-slate-700">Monitored VMAX Big Data Platform, performed RCA on incidents, supported changes, and analyzed KQI/QoE metrics.</p>
-        </article>
-        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div class="flex items-center justify-between gap-4">
-            <h3 class="text-lg font-semibold">Senior Data Engineer — Raena (Alpha Wave)</h3>
-            <span class="text-xs text-slate-500">May 2022 – Oct 2024 · Abu Dhabi, UAE</span>
-          </div>
-          <ul class="mt-3 list-disc pl-5 text-sm text-slate-700 space-y-2">
-            <li>80% faster inventory processing by integrating Kafka; 30% cheaper & faster analytics after migrating to Redshift.</li>
-            <li>Built 20+ real‑time BI dashboards and orchestrated ETL with Airflow, cutting reporting time by 60%.</li>
-          </ul>
-        </article>
-        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div class="flex items-center justify-between gap-4">
-            <h3 class="text-lg font-semibold">Big Data Platform & CVM Lead Engineer — Banglalink</h3>
-            <span class="text-xs text-slate-500">Apr 2020 – Apr 2022 · Dhaka, BD</span>
-          </div>
-          <ul class="mt-3 list-disc pl-5 text-sm text-slate-700 space-y-2">
-            <li>Engineered 100TB/day platform with NiFi, Kafka, Airflow, Ignite & Cassandra; 99% uptime via Grafana/Prometheus.</li>
-            <li>Java Spring Boot trigger framework handling 400B+ events daily; drove ~$9M revenue uplift in one week.</li>
-            <li>Teradata → CDP offloading cut storage by 40% and boosted query speed by 25%.</li>
-          </ul>
-        </article>
-      </div>
+      <div id="experience-list" class="mt-6 grid gap-6"></div>
     </div>
   </section>
 
@@ -116,24 +77,7 @@
   <section class="section bg-white" id="projects">
     <div class="mx-auto max-w-5xl px-6 py-16">
       <h2 class="text-2xl font-bold">Highlighted Projects</h2>
-      <div class="mt-6 grid md:grid-cols-2 gap-6">
-        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">IPDR Data Pipeline — Banglalink</h3>
-          <p class="mt-2 text-sm text-slate-700">Spark‑based framework processing 6TB+ daily (40B+ records) with Airflow scheduling, real‑time alerts, and backlog recovery.</p>
-        </article>
-        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">DMP Triggers Framework — Banglalink</h3>
-          <p class="mt-2 text-sm text-slate-700">Java Spring Boot + Kafka/Ignite system handling 400B+ daily events and automating notifications, reporting, and scaling.</p>
-        </article>
-        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">Clevertap Data Processing — Raena</h3>
-          <p class="mt-2 text-sm text-slate-700">PySpark + EMR pipeline on S3 data lake; Airflow automation for near real‑time user journey insights.</p>
-        </article>
-        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">Teradata Backup & Offloading — Banglalink</h3>
-          <p class="mt-2 text-sm text-slate-700">Python + Airflow solution for full/incremental backups; 40% storage reduction and low‑cost archival in CDP.</p>
-        </article>
-      </div>
+      <div id="projects-grid" class="mt-6 grid md:grid-cols-2 gap-6"></div>
     </div>
   </section>
 
@@ -141,32 +85,7 @@
   <section class="section" id="skills">
     <div class="mx-auto max-w-5xl px-6 py-16">
       <h2 class="text-2xl font-bold">Skills</h2>
-      <div class="mt-6 grid md:grid-cols-3 gap-6 text-sm">
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">Data Engineering</h3>
-          <p class="mt-2 text-slate-700">Spark (PySpark), NiFi, Airflow, Databricks, Sqoop, EMR, Informatica, Data Factory</p>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">Streaming & Messaging</h3>
-          <p class="mt-2 text-slate-700">Kafka, RabbitMQ</p>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">Databases</h3>
-          <p class="mt-2 text-slate-700">Oracle, MySQL, Cassandra, Ignite, MongoDB, Redshift, Teradata, PostgreSQL</p>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">Cloud Platforms</h3>
-          <p class="mt-2 text-slate-700">AWS, Azure, Oracle Cloud Infrastructure (OCI)</p>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">Scripting & Languages</h3>
-          <p class="mt-2 text-slate-700">Python, Java, Shell</p>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">Monitoring & Visualization</h3>
-          <p class="mt-2 text-slate-700">Prometheus, Grafana, Metabase</p>
-        </div>
-      </div>
+      <div id="skills-grid" class="mt-6 grid md:grid-cols-3 gap-6 text-sm"></div>
     </div>
   </section>
 
@@ -174,23 +93,7 @@
   <section class="section bg-white" id="education">
     <div class="mx-auto max-w-5xl px-6 py-16">
       <h2 class="text-2xl font-bold">Education & Certifications</h2>
-      <div class="mt-6 grid md:grid-cols-2 gap-6">
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">Education</h3>
-          <ul class="mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1">
-            <li>Masters, Information Technology — Jahangirnagar University (2015–2016)</li>
-            <li>BSc, Computer Science & Engineering — AUST (2009–2013)</li>
-          </ul>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="font-semibold">Certifications</h3>
-          <ul class="mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1">
-            <li>OCI 2025 AI Foundations OCA (Jun 2025)</li>
-            <li>OCI 2025 Foundations OCA (Apr 2025)</li>
-            <li>Azure Data Engineer Associate (Feb 2024)</li>
-          </ul>
-        </div>
-      </div>
+      <div id="edu-cert" class="mt-6 grid md:grid-cols-2 gap-6"></div>
     </div>
   </section>
 
@@ -217,10 +120,158 @@
   <footer class="py-10 text-center text-xs text-slate-500">© <span id="year"></span> Shariar Imtiaz</footer>
 
   <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // ===== Modular Data (easy to edit) =====
+    // Update this object to add/edit content without touching layout/markup
+    const resumeData = {
+      hero: {
+        title: "Shariar Imtiaz",
+        subtitle: "Data Engineer · Data Architect · Big Data & AI Platform Specialist",
+        intro: "11+ years building high‑scale data platforms, cloud solutions, and AI‑ready infrastructure across telecom, e‑commerce and cloud providers."
+      },
+      experience: [
+        {
+          role: "Senior Technology Solution & Cloud Architect",
+          company: "Oracle",
+          location: "Dhaka, BD",
+          period: "Apr 2025 – Present",
+          bullets: [
+            "Architected secure, cost‑optimized data platforms aligned with PCI DSS & ISO; reduced TCO and achieved 99.99% availability with DR.",
+            "Built AI‑centric data solutions using Oracle Database 23ai (Select AI, Vector Search) with GenAI connectors for RAG and semantic search.",
+            "Designed high‑availability Oracle Database architectures (Exadata, RAC, GoldenGate, ADG)."
+          ]
+        },
+        {
+          role: "VMAX Engineer",
+          company: "ZTE Bangladesh",
+          location: "Dhaka, BD",
+          period: "Jan 2025 – Apr 2025",
+          bullets: [
+            "Monitored VMAX Big Data Platform; performed RCA on incidents and supported changes.",
+            "Analyzed KQI/QoE metrics and produced customer complaint analysis reports."
+          ]
+        },
+        {
+          role: "Senior Data Engineer",
+          company: "Raena (Alpha Wave)",
+          location: "Abu Dhabi, UAE",
+          period: "May 2022 – Oct 2024",
+          bullets: [
+            "80% faster inventory processing via Kafka; 30% cheaper & faster analytics after migrating to Redshift.",
+            "20+ real‑time BI dashboards; ETL orchestration with Airflow cut reporting time by 60%."
+          ]
+        },
+        {
+          role: "Big Data Platform & CVM Lead Engineer",
+          company: "Banglalink",
+          location: "Dhaka, BD",
+          period: "Apr 2020 – Apr 2022",
+          bullets: [
+            "Engineered 100TB/day big data platform with NiFi, Airflow, Kafka, Ignite & Cassandra (99% uptime).",
+            "Java Spring Boot trigger framework handling 400B+ events daily; ~$9M revenue uplift in one week.",
+            "Teradata → CDP offloading cut storage by 40% and boosted query speed by 25%."
+          ]
+        }
+      ],
+      projects: [
+        { title: "IPDR Data Pipeline — Banglalink", summary: "Spark‑based framework processing 6TB+ daily (40B+ records) with Airflow scheduling, real‑time alerts, and backlog recovery." },
+        { title: "DMP Triggers Framework — Banglalink", summary: "Java Spring Boot + Kafka/Ignite system handling 400B+ daily events and automating notifications, reporting, and scaling." },
+        { title: "Clevertap Data Processing — Raena", summary: "PySpark + EMR pipeline on S3 data lake; Airflow automation for near real‑time user journey insights." },
+        { title: "Teradata Backup & Offloading — Banglalink", summary: "Python + Airflow solution for full/incremental backups; 40% storage reduction and low‑cost archival in CDP." }
+      ],
+      skills: [
+        { group: "Data Engineering", items: "Spark (PySpark), NiFi, Airflow, Databricks, Sqoop, EMR, Informatica, Data Factory" },
+        { group: "Streaming & Messaging", items: "Kafka, RabbitMQ" },
+        { group: "Databases", items: "Oracle, MySQL, Cassandra, Ignite, MongoDB, Redshift, Teradata, PostgreSQL" },
+        { group: "Cloud Platforms", items: "AWS, Azure, Oracle Cloud Infrastructure (OCI)" },
+        { group: "Scripting & Languages", items: "Python, Java, Shell" },
+        { group: "Monitoring & Visualization", items: "Prometheus, Grafana, Metabase" }
+      ],
+      education: {
+        degrees: [
+          { title: "Masters, Information Technology", org: "Jahangirnagar University", period: "2015–2016", location: "Dhaka, Bangladesh" },
+          { title: "BSc, Computer Science & Engineering", org: "Ahsanullah University of Science and Technology", period: "2009–2013", location: "Dhaka, Bangladesh" },
+        ],
+        certs: [
+          { title: "OCI 2025 AI Foundations OCA", period: "Jun 2025" },
+          { title: "OCI 2025 Foundations OCA", period: "Apr 2025" },
+          { title: "Azure Data Engineer Associate", period: "Feb 2024" },
+        ]
+      }
+    };
 
-    // Avatar coach messages per section
+    // ===== Renderers =====
+    const el = (tag, classes = '', html = '') => {
+      const e = document.createElement(tag);
+      if (classes) e.className = classes;
+      if (html) e.innerHTML = html;
+      return e;
+    };
+
+    function renderExperience(list){
+      const wrap = document.getElementById('experience-list');
+      wrap.innerHTML = '';
+      list.forEach(job => {
+        const card = el('article', 'rounded-2xl border border-slate-200 bg-white p-6 shadow-sm');
+        card.appendChild(el('div','flex items-center justify-between gap-4', `
+          <h3 class="text-lg font-semibold">${job.role} — ${job.company}</h3>
+          <span class="text-xs text-slate-500">${job.period} · ${job.location}</span>
+        `));
+        const ul = el('ul','mt-3 list-disc pl-5 text-sm text-slate-700 space-y-2');
+        job.bullets.forEach(b => ul.appendChild(el('li','', b)));
+        card.appendChild(ul);
+        wrap.appendChild(card);
+      });
+    }
+
+    function renderProjects(items){
+      const grid = document.getElementById('projects-grid');
+      grid.innerHTML = '';
+      items.forEach(p => {
+        const card = el('article','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm');
+        card.appendChild(el('h3','font-semibold', p.title));
+        card.appendChild(el('p','mt-2 text-sm text-slate-700', p.summary));
+        grid.appendChild(card);
+      });
+    }
+
+    function renderSkills(groups){
+      const grid = document.getElementById('skills-grid');
+      grid.innerHTML = '';
+      groups.forEach(g => {
+        const card = el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm');
+        card.appendChild(el('h3','font-semibold', g.group));
+        card.appendChild(el('p','mt-2 text-slate-700', g.items));
+        grid.appendChild(card);
+      });
+    }
+
+    function renderEduCert(edu){
+      const grid = document.getElementById('edu-cert');
+      grid.innerHTML = '';
+      const eduCard = el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm');
+      eduCard.appendChild(el('h3','font-semibold','Education'));
+      const eduList = el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1');
+      edu.degrees.forEach(d => eduList.appendChild(el('li','', `${d.title} — ${d.org} (${d.period})`)));
+      eduCard.appendChild(eduList);
+
+      const certCard = el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm');
+      certCard.appendChild(el('h3','font-semibold','Certifications'));
+      const certList = el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1');
+      edu.certs.forEach(c => certList.appendChild(el('li','', `${c.title} (${c.period})`)));
+      certCard.appendChild(certList);
+
+      grid.appendChild(eduCard);
+      grid.appendChild(certCard);
+    }
+
+    // ===== Initialize content =====
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderExperience(resumeData.experience);
+    renderProjects(resumeData.projects);
+    renderSkills(resumeData.skills);
+    renderEduCert(resumeData.education);
+
+    // ===== Avatar coach messages per section =====
     const messages = {
       home: "Hey! I’m Shariar. Scroll down and I’ll guide you through my work.",
       experience: "Here’s a quick tour of my recent roles and impact.",
@@ -233,10 +284,7 @@
     const bubble = document.getElementById('coach-bubble');
     const text = document.getElementById('coach-text');
 
-    const sections = ['home','experience','projects','skills','education','contact'].map(id => ({
-      id,
-      el: document.getElementById(id)
-    }));
+    const sections = ['home','experience','projects','skills','education','contact'].map(id => ({ id, el: document.getElementById(id) }));
 
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -244,7 +292,7 @@
           const id = e.target.id;
           text.textContent = messages[id] || '';
           bubble.classList.remove('hidden');
-          // Highlight nav dot
+          // highlight nav dots
           document.querySelectorAll('nav a span').forEach(dot => dot.classList.remove('bg-slate-900','active-dot'));
           const link = document.querySelector(`nav a[href="#${id}"] span`);
           if (link) link.classList.add('bg-slate-900','active-dot');
