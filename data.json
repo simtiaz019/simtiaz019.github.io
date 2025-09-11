@@ -72,6 +72,14 @@
     {
       "title": "Teradata Backup & Offloading — Banglalink",
       "summary": "Python + Airflow solution for full/incremental backups; 40% storage reduction and low-cost archival in CDP."
+    },
+    {
+      "title": "Credit Scoring Assistant for Banks",
+      "summary": "Designed AI-powered credit scoring system using Oracle DB 23ai vector search + TinyBERT embeddings"
+    },
+    {
+      "title": "Telecom Pack Recommendation Engine",
+      "summary": "Built telecom recommendation engine with OML in Autonomous DB & OCI Data Science pipelines"
     }
   ],
   "skills": [
@@ -80,6 +88,9 @@
     { "group": "Databases", "items": "Oracle, MySQL, Cassandra, Ignite, MongoDB, Redshift, Teradata, PostgreSQL" },
     { "group": "Cloud Platforms", "items": "AWS, Azure, Oracle Cloud Infrastructure (OCI)" },
     { "group": "Scripting & Languages", "items": "Python, Java, Shell" },
+    { "group": "DevOps", "items": "Git, Bitbucket, Docker, Kubernetes, Helm" },
+    { "group": "ML/AI", "items": "Oracle Autonomous Database + In-DB ML, SelectAI, Conversational AI" },
+    { "group": "Testing", "items": "Selenium, Postman" },
     { "group": "Monitoring & Visualization", "items": "Prometheus, Grafana, Metabase" }
   ],
   "education": {
