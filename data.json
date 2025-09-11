@@ -74,11 +74,11 @@
       "summary": "Python + Airflow solution for full/incremental backups; 40% storage reduction and low-cost archival in CDP."
     },
     {
-      "title": "Credit Scoring Assistant for Banks",
+      "title": "Credit Scoring Assistant for Banks — Oracle",
       "summary": "Designed AI-powered credit scoring system using Oracle DB 23ai vector search + TinyBERT embeddings"
     },
     {
-      "title": "Telecom Pack Recommendation Engine",
+      "title": "Telecom Pack Recommendation Engine — Oracle",
       "summary": "Built telecom recommendation engine with OML in Autonomous DB & OCI Data Science pipelines"
     }
   ],
