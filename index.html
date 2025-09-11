@@ -15,7 +15,10 @@
     .bubble { position: fixed; right: 110px; bottom: 42px; max-width: 360px; z-index: 50; }
     .section { scroll-margin-top: 96px; }
     .active-dot { transform: scale(1.15); }
-    .hover-glow:hover { box-shadow: 0 0 20px rgba(79,70,229,0.5); transform: translateY(-2px); transition: all .3s; }
+    .hover-glow { transition: box-shadow .3s, transform .3s; }
+    .hover-glow:hover { box-shadow: 0 0 20px rgba(79,70,229,0.35); transform: translateY(-2px); }
+    /* timeline dot color stays neutral (no hover changes) */
+    .tl-dot { background-color: rgb(203 213 225); /* slate-300 */ }
     @media (max-width: 768px) {
       .avatar { right: 16px; bottom: 16px; width: 60px; height: 60px; }
       .bubble { right: 88px; bottom: 28px; left: 16px; }
@@ -24,7 +27,7 @@
 </head>
 <body class="bg-slate-50 text-slate-900">
   <!-- Floating avatar & bubble guide (bottom-right) -->
-  <img src="avatar.png" alt="Shariar avatar" class="avatar object-cover" />
+  <img src="asset/avatar.png" alt="Shariar avatar" class="avatar object-cover" />
   <div id="coach-bubble" class="bubble hidden">
     <div class="relative">
       <div class="rounded-2xl bg-white/90 backdrop-blur border border-slate-200 p-4 shadow-xl">
@@ -41,7 +44,7 @@
       <div class="flex flex-col md:flex-row items-center gap-10">
         <!-- Profile Image Blended -->
         <div class="relative w-44 h-44 md:w-56 md:h-56 rounded-full ring-4 ring-white/30 shadow-2xl overflow-hidden">
-          <img src="profile.jpg" alt="Shariar Imtiaz" class="w-full h-full object-cover"/>
+          <img src="asset/profile.jpg" alt="Shariar Imtiaz" class="w-full h-full object-cover"/>
         </div>
         <!-- Intro Text -->
         <div class="flex-1 text-white">
@@ -71,7 +74,7 @@
     </div>
   </header>
 
-  <!-- Experience Timeline -->
+  <!-- Experience Timeline with Logos -->
   <section class="section" id="experience">
     <div class="mx-auto max-w-6xl px-6 py-16">
       <h2 class="text-2xl font-bold text-slate-900">Experience</h2>
@@ -95,7 +98,7 @@
     </div>
   </section>
 
-  <!-- Education -->
+  <!-- Education with Logos -->
   <section class="section bg-white" id="education">
     <div class="mx-auto max-w-6xl px-6 py-16">
       <h2 class="text-2xl font-bold text-slate-900">Education & Certifications</h2>
@@ -129,20 +132,35 @@
     const fallbackData = { experience: [], projects: [], skills: [], education: { degrees: [], certs: [] } };
     const el = (tag, classes='', html='') => { const e=document.createElement(tag); if(classes) e.className=classes; if(html) e.innerHTML=html; return e; };
 
+    // Experience: timeline with company logo
     function renderExperience(list){
       const wrap=document.getElementById('experience-list'); wrap.innerHTML='';
       list.forEach(job=>{
-        const item=el('div','ml-6 mb-10 hover-glow');
-        item.appendChild(el('div','absolute -left-1.5 w-3 h-3 bg-indigo-600 rounded-full border border-white',''));
-        item.appendChild(el('h3','font-semibold text-slate-900', `<a href="${job.link}" target="_blank">${job.role} — ${job.company}</a>`));
-        item.appendChild(el('span','text-xs text-slate-500', `${job.period} · ${job.location}`));
-        const ul=el('ul','mt-2 list-disc pl-5 text-sm text-slate-700 space-y-1');
-        job.bullets.forEach(b=>ul.appendChild(el('li','',b)));
+        const item=el('div','relative ml-6 mb-10 hover-glow');
+        // neutral dot (no hover changes)
+        item.appendChild(el('div','tl-dot absolute -left-1.5 w-3 h-3 rounded-full border border-white',''));
+
+        const topRow = el('div','flex items-start gap-3');
+        if (job.logo) {
+          const logo = el('img','w-10 h-10 object-contain rounded-md border border-slate-200 bg-white');
+          logo.src = job.logo; logo.alt = job.company + ' logo';
+          topRow.appendChild(logo);
+        }
+        const titleWrap = el('div','');
+        titleWrap.appendChild(el('h3','font-semibold text-slate-900', `<a href="${job.link}" target="_blank" rel="noopener">${job.role} — ${job.company}</a>`));
+        titleWrap.appendChild(el('span','text-xs text-slate-500', `${job.period} · ${job.location}`));
+        topRow.appendChild(titleWrap);
+        item.appendChild(topRow);
+
+        const ul=el('ul','mt-3 list-disc pl-5 text-sm text-slate-700 space-y-1');
+        (job.bullets||[]).forEach(b=>ul.appendChild(el('li','',b)));
         item.appendChild(ul);
+
         wrap.appendChild(item);
       });
     }
 
+    // Projects: simple card
     function renderProjects(items){
       const grid=document.getElementById('projects-grid'); grid.innerHTML='';
       items.forEach(p=>{
@@ -153,6 +171,7 @@
       });
     }
 
+    // Skills cards
     function renderSkills(groups){
       const grid=document.getElementById('skills-grid'); grid.innerHTML='';
       groups.forEach(g=>{
@@ -163,21 +182,35 @@
       });
     }
 
+    // Education: show logos and links
     function renderEduCert(edu){
       const grid=document.getElementById('edu-cert'); grid.innerHTML='';
       const eduCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');
       eduCard.appendChild(el('h3','font-semibold text-slate-900','Education'));
-      const eduList=el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1');
-      (edu.degrees||[]).forEach(d=>eduList.appendChild(el('li','',`<a href="${d.link}" target="_blank">${d.title} — ${d.org}</a> (${d.period})`)));
+      const eduList=el('ul','mt-2 text-sm text-slate-700 space-y-3');
+      (edu.degrees||[]).forEach(d=>{
+        const li = el('li','flex items-center');
+        if (d.logo) {
+          const logo = el('img','w-7 h-7 object-contain rounded mr-2 border border-slate-200 bg-white');
+          logo.src = d.logo; logo.alt = (d.org||'') + ' logo';
+          li.appendChild(logo);
+        }
+        const t = `<a href="${d.link}" target="_blank" rel="noopener">${d.title} — ${d.org}</a> (${d.period})`;
+        li.appendChild(el('span','', t));
+        eduList.appendChild(li);
+      });
       eduCard.appendChild(eduList);
+
       const certCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');
       certCard.appendChild(el('h3','font-semibold text-slate-900','Certifications'));
       const certList=el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1');
       (edu.certs||[]).forEach(c=>certList.appendChild(el('li','',`${c.title} (${c.period})`)));
       certCard.appendChild(certList);
+
       grid.appendChild(eduCard); grid.appendChild(certCard);
     }
 
+    // Avatar coach
     const messages={home:"Hey! I’m Shariar. Scroll down and I’ll guide you through my work.",experience:"Here’s a quick tour of my recent roles and impact.",projects:"Some projects I’m proud of—high‑scale data, streaming, and analytics.",skills:"My core toolbox across data engineering, cloud, and databases.",education:"Degrees & certifications that back up the hands‑on work.",contact:"Let’s connect—email, phone, or LinkedIn works best."};
     const bubble=document.getElementById('coach-bubble');
     const coachText=document.getElementById('coach-text');
@@ -187,8 +220,8 @@
 
     async function init(){
       document.getElementById('year').textContent=new Date().getFullYear();
-      let data=fallbackData;
-      try{const res=await fetch('./data.json',{cache:'no-store'});if(res.ok)data=await res.json();}catch(e){}
+      let data;
+      try{const res=await fetch('./data.json',{cache:'no-store'}); data = res.ok ? await res.json() : fallbackData;}catch(e){data=fallbackData}
       renderExperience(data.experience||[]);
       renderProjects(data.projects||[]);
       renderSkills(data.skills||[]);

@@ -9,6 +9,7 @@
       "role": "Senior Technology Solution & Cloud Architect",
       "company": "Oracle",
       "link": "https://www.oracle.com/",
+      "logo": "asset/logos/oracle.png",
       "location": "Dhaka, BD",
       "period": "Apr 2025 – Present",
       "bullets": [
@@ -21,6 +22,7 @@
       "role": "VMAX Engineer",
       "company": "ZTE Bangladesh",
       "link": "https://www.zte.com.cn/global/",
+      "logo": "asset/logos/oracle.png",
       "location": "Dhaka, BD",
       "period": "Jan 2025 – Apr 2025",
       "bullets": [
@@ -31,7 +33,8 @@
     {
       "role": "Senior Data Engineer",
       "company": "Raena (Alpha Wave)",
-      "link": "https://raena.co/",
+      "link": "https://www.alphawaveglobal.com/businesses/ventures-incubation",
+      "logo": "asset/logos/raena.jpeg",
       "location": "Abu Dhabi, UAE",
       "period": "May 2022 – Oct 2024",
       "bullets": [
@@ -43,6 +46,7 @@
       "role": "Big Data Platform & CVM Lead Engineer",
       "company": "Banglalink Digital Communications Ltd.",
       "link": "https://www.banglalink.net/",
+      "logo": "asset/logos/bl.webp",
       "location": "Dhaka, BD",
       "period": "Apr 2020 – Apr 2022",
       "bullets": [
@@ -84,6 +88,7 @@
         "title": "Masters, Information Technology",
         "org": "Jahangirnagar University",
         "link": "https://juniv.edu/",
+        "logo": "asset/logos/ju.jpeg",
         "period": "2015–2016",
         "location": "Dhaka, Bangladesh"
       },
@@ -91,6 +96,7 @@
         "title": "BSc, Computer Science & Engineering",
         "org": "Ahsanullah University of Science and Technology",
         "link": "https://aust.edu/",
+        "logo": "asset/logos/aust.png",
         "period": "2009–2013",
         "location": "Dhaka, Bangladesh"
       }
