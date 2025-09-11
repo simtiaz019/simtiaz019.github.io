@@ -1,0 +1,76 @@
+{
+  "hero": {
+    "title": "Shariar Imtiaz",
+    "subtitle": "Data Engineer · Data Architect · Big Data & AI Platform Specialist",
+    "intro": "11+ years building high-scale data platforms, cloud solutions, and AI-ready infrastructure across telecom, e-commerce and cloud providers."
+  },
+  "experience": [
+    {
+      "role": "Senior Technology Solution & Cloud Architect",
+      "company": "Oracle",
+      "location": "Dhaka, BD",
+      "period": "Apr 2025 – Present",
+      "bullets": [
+        "Architected secure, cost-optimized data platforms aligned with PCI DSS & ISO; reduced TCO and achieved 99.99% availability with DR.",
+        "Built AI-centric data solutions using Oracle Database 23ai (Select AI, Vector Search) with GenAI connectors for RAG and semantic search.",
+        "Designed high-availability Oracle Database architectures (Exadata, RAC, GoldenGate, ADG)."
+      ]
+    },
+    {
+      "role": "VMAX Engineer",
+      "company": "ZTE Bangladesh",
+      "location": "Dhaka, BD",
+      "period": "Jan 2025 – Apr 2025",
+      "bullets": [
+        "Monitored VMAX Big Data Platform; performed RCA on incidents and supported changes.",
+        "Analyzed KQI/QoE metrics and produced customer complaint analysis reports."
+      ]
+    },
+    {
+      "role": "Senior Data Engineer",
+      "company": "Raena (Alpha Wave)",
+      "location": "Abu Dhabi, UAE",
+      "period": "May 2022 – Oct 2024",
+      "bullets": [
+        "80% faster inventory processing via Kafka; 30% cheaper & faster analytics after migrating to Redshift.",
+        "20+ real-time BI dashboards; ETL orchestration with Airflow cut reporting time by 60%."
+      ]
+    },
+    {
+      "role": "Big Data Platform & CVM Lead Engineer",
+      "company": "Banglalink",
+      "location": "Dhaka, BD",
+      "period": "Apr 2020 – Apr 2022",
+      "bullets": [
+        "Engineered 100TB/day big data platform with NiFi, Airflow, Kafka, Ignite & Cassandra (99% uptime).",
+        "Java Spring Boot trigger framework handling 400B+ events daily; ~$9M revenue uplift in one week.",
+        "Teradata → CDP offloading cut storage by 40% and boosted query speed by 25%."
+      ]
+    }
+  ],
+  "projects": [
+    { "title": "IPDR Data Pipeline — Banglalink", "summary": "Spark-based framework processing 6TB+ daily (40B+ records) with Airflow scheduling, real-time alerts, and backlog recovery." },
+    { "title": "DMP Triggers Framework — Banglalink", "summary": "Java Spring Boot + Kafka/Ignite system handling 400B+ daily events and automating notifications, reporting, and scaling." },
+    { "title": "Clevertap Data Processing — Raena", "summary": "PySpark + EMR pipeline on S3 data lake; Airflow automation for near real-time user journey insights." },
+    { "title": "Teradata Backup & Offloading — Banglalink", "summary": "Python + Airflow solution for full/incremental backups; 40% storage reduction and low-cost archival in CDP." }
+  ],
+  "skills": [
+    { "group": "Data Engineering", "items": "Spark (PySpark), NiFi, Airflow, Databricks, Sqoop, EMR, Informatica, Data Factory" },
+    { "group": "Streaming & Messaging", "items": "Kafka, RabbitMQ" },
+    { "group": "Databases", "items": "Oracle, MySQL, Cassandra, Ignite, MongoDB, Redshift, Teradata, PostgreSQL" },
+    { "group": "Cloud Platforms", "items": "AWS, Azure, Oracle Cloud Infrastructure (OCI)" },
+    { "group": "Scripting & Languages", "items": "Python, Java, Shell" },
+    { "group": "Monitoring & Visualization", "items": "Prometheus, Grafana, Metabase" }
+  ],
+  "education": {
+    "degrees": [
+      { "title": "Masters, Information Technology", "org": "Jahangirnagar University", "period": "2015–2016", "location": "Dhaka, Bangladesh" },
+      { "title": "BSc, Computer Science & Engineering", "org": "Ahsanullah University of Science and Technology", "period": "2009–2013", "location": "Dhaka, Bangladesh" }
+    ],
+    "certs": [
+      { "title": "OCI 2025 AI Foundations OCA", "period": "Jun 2025" },
+      { "title": "OCI 2025 Foundations OCA", "period": "Apr 2025" },
+      { "title": "Azure Data Engineer Associate", "period": "Feb 2024" }
+    ]
+  }
+}
