@@ -8,6 +8,7 @@
     {
       "role": "Senior Technology Solution & Cloud Architect",
       "company": "Oracle",
+      "link": "https://www.oracle.com/",
       "location": "Dhaka, BD",
       "period": "Apr 2025 – Present",
       "bullets": [
@@ -19,6 +20,7 @@
     {
       "role": "VMAX Engineer",
       "company": "ZTE Bangladesh",
+      "link": "https://www.zte.com.cn/global/",
       "location": "Dhaka, BD",
       "period": "Jan 2025 – Apr 2025",
       "bullets": [
@@ -29,6 +31,7 @@
     {
       "role": "Senior Data Engineer",
       "company": "Raena (Alpha Wave)",
+      "link": "https://raena.co/",
       "location": "Abu Dhabi, UAE",
       "period": "May 2022 – Oct 2024",
       "bullets": [
@@ -38,7 +41,8 @@
     },
     {
       "role": "Big Data Platform & CVM Lead Engineer",
-      "company": "Banglalink",
+      "company": "Banglalink Digital Communications Ltd.",
+      "link": "https://www.banglalink.net/",
       "location": "Dhaka, BD",
       "period": "Apr 2020 – Apr 2022",
       "bullets": [
@@ -49,10 +53,22 @@
     }
   ],
   "projects": [
-    { "title": "IPDR Data Pipeline — Banglalink", "summary": "Spark-based framework processing 6TB+ daily (40B+ records) with Airflow scheduling, real-time alerts, and backlog recovery." },
-    { "title": "DMP Triggers Framework — Banglalink", "summary": "Java Spring Boot + Kafka/Ignite system handling 400B+ daily events and automating notifications, reporting, and scaling." },
-    { "title": "Clevertap Data Processing — Raena", "summary": "PySpark + EMR pipeline on S3 data lake; Airflow automation for near real-time user journey insights." },
-    { "title": "Teradata Backup & Offloading — Banglalink", "summary": "Python + Airflow solution for full/incremental backups; 40% storage reduction and low-cost archival in CDP." }
+    {
+      "title": "IPDR Data Pipeline — Banglalink",
+      "summary": "Spark-based framework processing 6TB+ daily (40B+ records) with Airflow scheduling, real-time alerts, and backlog recovery."
+    },
+    {
+      "title": "DMP Triggers Framework — Banglalink",
+      "summary": "Java Spring Boot + Kafka/Ignite system handling 400B+ daily events and automating notifications, reporting, and scaling."
+    },
+    {
+      "title": "Clevertap Data Processing — Raena",
+      "summary": "PySpark + EMR pipeline on S3 data lake; Airflow automation for near real-time user journey insights."
+    },
+    {
+      "title": "Teradata Backup & Offloading — Banglalink",
+      "summary": "Python + Airflow solution for full/incremental backups; 40% storage reduction and low-cost archival in CDP."
+    }
   ],
   "skills": [
     { "group": "Data Engineering", "items": "Spark (PySpark), NiFi, Airflow, Databricks, Sqoop, EMR, Informatica, Data Factory" },
@@ -64,8 +80,20 @@
   ],
   "education": {
     "degrees": [
-      { "title": "Masters, Information Technology", "org": "Jahangirnagar University", "period": "2015–2016", "location": "Dhaka, Bangladesh" },
-      { "title": "BSc, Computer Science & Engineering", "org": "Ahsanullah University of Science and Technology", "period": "2009–2013", "location": "Dhaka, Bangladesh" }
+      {
+        "title": "Masters, Information Technology",
+        "org": "Jahangirnagar University",
+        "link": "https://juniv.edu/",
+        "period": "2015–2016",
+        "location": "Dhaka, Bangladesh"
+      },
+      {
+        "title": "BSc, Computer Science & Engineering",
+        "org": "Ahsanullah University of Science and Technology",
+        "link": "https://aust.edu/",
+        "period": "2009–2013",
+        "location": "Dhaka, Bangladesh"
+      }
     ],
     "certs": [
       { "title": "OCI 2025 AI Foundations OCA", "period": "Jun 2025" },
