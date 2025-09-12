@@ -123,7 +123,7 @@
 
   <!-- Contact -->
   <section class="section" id="contact">
-    <div class="mx-auto max-w-6xl px-6 py-16">
+    <div class="mx-auto max-w-6xl px-6 py-16"> 
       <h2 class="text-2xl font-bold text-slate-900">Contact</h2>
       <div class="mt-8 grid md:grid-cols-2 gap-6 text-sm">
         <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow space-y-4">
@@ -142,8 +142,7 @@
     </div>
   </section>
 
-  <footer class="py-10 text-center text-xs text-slate-500">© <span id="year"></spa\=
-    t7698> Shariar Imtiaz</footer>
+  <footer class="py-10 text-center text-xs text-slate-500">© <span id="year"></span> Shariar Imtiaz</footer>
 
   <script>
     const fallbackData = { about: "Seasoned data professional focused on reliable, scalable analytics platforms.", experience: [], projects: [], skills: [], education: { degrees: [], certs: [] }, cv_url: "asset/cv.pdf" };
@@ -153,8 +152,6 @@
     function renderAbout(about, cvUrl){
       const summaryEl = document.getElementById('about-summary');
       const hiEl = document.getElementById('about-highlights');
-      const factsEl = document.getElementById('about-facts');
-      const links = [document.getElementById('about-cv'), document.getElementById('hero-cv'), document.getElementById('bubble-cv')];
 
       // Summary
       if (typeof about === 'string') {
@@ -162,176 +159,81 @@
       } else if (about && typeof about === 'object') {
         summaryEl.textContent = about.summary || '';
         (about.highlights || []).forEach(h => hiEl.appendChild(el('li','',h)));
-        if (about.facts && typeof about.facts === 'object') {
-          Object.entries(about.facts).forEach(([k,v])=>{
-            const row = el('div','flex justify-between gap-4');
-            row.appendChild(el('dt','text-slate-500',k));
-            row.appendChild(el('dd','font-medium text-slate-800',v));
-            factsEl.appendChild(row);
-          });
-        }
       }
 
       // CV link normalization
       const href = (cvUrl && typeof cvUrl === 'string') ? cvUrl : 'asset/cv.pdf';
-      links.forEach(a => { if(a) a.href = href; });
+      document.getElementById('about-cv').href = href;
     }
 
     // Experience
     function renderExperience(list){
       const wrap=document.getElementById('experience-list'); wrap.innerHTML='';
       list.forEach(job=>{
-        const item=el('div','relative ml-6 mb-10 hover-glow');
-        item.appendChild(el('div','tl-dot absolute -left-1.5 w-3 h-3 rounded-full border border-white',''));
-        const topRow = el('div','flex items-start gap-3');
-        if (job.logo) {
-          const logo = el('img','w-10 h-10 object-contain rounded-md border border-slate-200 bg-white');
-          logo.src = job.logo; logo.alt = job.company + ' logo';
-          topRow.appendChild(logo);
-        }
-        const titleWrap = el('div','');
-        const link = job.link ? job.link : '#';
-        titleWrap.appendChild(el('h3','font-semibold text-slate-900', `<a href="${link}" target="_blank" rel="noopener">${job.role} — ${job.company}</a>`));
-        titleWrap.appendChild(el('span','text-xs text-slate-500', `${job.period||''} · ${job.location||''}`));
-        topRow.appendChild(titleWrap);
-        item.appendChild(topRow);
-        const ul=el('ul','mt-3 list-disc pl-5 text-sm text-slate-700 space-y-1');
-        (job.bullets||[]).forEach(b=>ul.appendChild(el('li','',b)));
-        item.appendChild(ul);
+        const item=el('div','relative ml-6 mb-10 hover-glow'); 
+        item.appendChild(el('span','absolute -left-6 flex items-center justify-center w-12 h-12 bg-white border rounded-full', '<svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-3-3.87m-4-9h-8L2 5m14 11v-6c0-1.11-.89-2-2-2H4l-1 5v7c0 .55.45 1 1 1h15c.55 0 1-.45 1-1z"/><circle cx="7" cy="9" r="2"/></svg>'));
+        const details = el('div','flex gap-x-3 text-xs leading-5');
+        details.appendChild(el('time','',job.time));
+        details.appendChild(el('span','',job.title));
+        details.appendChild(el('span','text-slate-400 italic',job.company));
+        item.appendChild(details);
+        wrap.appendChild(item);
+      });
+    }
+
+    // Skills
+    function renderSkills(list){
+      const wrap=document.getElementById('skills-list'); wrap.innerHTML='';
+      list.forEach(skill=>{
+        const item=el('li','', skill);
         wrap.appendChild(item);
       });
     }
 
     // Projects
-    function renderProjects(items){
-      const grid=document.getElementById('projects-grid'); grid.innerHTML='';
-      items.forEach(p=>{
-        const card=el('article','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');
-        card.appendChild(el('h3','font-semibold text-slate-900',p.title||'Untitled Project'));
-        card.appendChild(el('p','mt-2 text-sm text-slate-700',p.summary||''));
-        grid.appendChild(card);
+    function renderProjects(list){
+      const wrap=document.getElementById('projects-list'); wrap.innerHTML='';
+      list.forEach(project=>{
+        const item=el('li','mb-3', `<a href='${project.link}' target='_blank' class='text-indigo-600 underline'>${project.name}</a>: ${project.description}`);
+        wrap.appendChild(item);
       });
     }
 
-    // Skills
-    function renderSkills(groups){
-      const grid=document.getElementById('skills-grid'); grid.innerHTML='';
-      groups.forEach(g=>{
-        const card=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');
-        card.appendChild(el('h3','font-semibold text-slate-900',g.group||''));
-        card.appendChild(el('p','mt-2 text-slate-700',g.items||''));
-        grid.appendChild(card);
+    // Education
+    function renderEducation(degrees, certs){
+      const degWrap=document.getElementById('education-degrees-list'); degWrap.innerHTML='';
+      degrees.forEach(degree=>{
+        const item=el('li','', degree);
+        degWrap.appendChild(item);
+      });
+
+      const certWrap=document.getElementById('certifications-list'); certWrap.innerHTML='';
+      certs.forEach(cert=>{
+        const item=el('li','', cert);
+        certWrap.appendChild(item);
       });
     }
 
-    // Education & Certs
-    function renderEduCert(edu){
-      const grid=document.getElementById('edu-cert'); grid.innerHTML='';
-      const eduCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');
-      eduCard.appendChild(el('h3','font-semibold text-slate-900','Education'));
-      const eduList=el('ul','mt-2 text-sm text-slate-700 space-y-3');
-      (edu.degrees||[]).forEach(d=>{
-        const li=el('li','flex items-center');
-        if(d.logo){ const logo=el('img','w-7 h-7 object-contain rounded mr-2 border border-slate-200 bg-white'); logo.src=d.logo; logo.alt=(d.org||'')+' logo'; li.appendChild(logo);}
-        const t=`${d.link ? `<a href="${d.link}" target="_blank" rel="noopener">${d.title} — ${d.org}</a>` : `${d.title} — ${d.org}`} ${d.period?`(${d.period})`:''}`;
-        li.appendChild(el('span','',t));
-        eduList.appendChild(li);
+    // Year Update
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Fetching Data (with Fallback)
+    fetch('data.json')
+      .then(res => res.ok ? res.json() : fallbackData)
+      .then(data => {
+        renderAbout(data.about || fallbackData.about, data.cv_url || fallbackData.cv_url);
+        renderExperience(data.experience || fallbackData.experience);
+        renderSkills(data.skills || fallbackData.skills);
+        renderProjects(data.projects || fallbackData.projects);
+        renderEducation(data.education.degrees || fallbackData.education.degrees, data.education.certs || fallbackData.education.certs);
+      })
+      .catch(() => {
+        renderAbout(fallbackData.about, fallbackData.cv_url);
+        renderExperience(fallbackData.experience);
+        renderSkills(fallbackData.skills);
+        renderProjects(fallbackData.projects);
+        renderEducation(fallbackData.education.degrees, fallbackData.education.certs);
       });
-      eduCard.appendChild(eduList);
-
-      const certCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');
-      certCard.appendChild(el('h3','font-semibold text-slate-900','Certifications'));
-      const certList=el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1');
-      (edu.certs||[]).forEach(c=>certList.appendChild(el('li','',`${c.title} ${c.period?`(${c.period})`:''}`)));
-      certCard.appendChild(certList);
-
-      grid.appendChild(eduCard); grid.appendChild(certCard);
-    }
-
-    // Avatar bubble messages
-    const messages={
-      home:"Hey! I’m Shariar. Scroll down and I’ll guide you through my work.",
-      about:"A quick intro about me, core strengths, and highlights.",
-      experience:"Here’s a quick tour of my recent roles and impact.",
-      projects:"Some projects I’m proud of—high-scale data, streaming, and analytics.",
-      skills:"My core toolbox across data engineering, cloud, and databases.",
-      education:"Degrees & certifications that back up the hands-on work.",
-      contact:"Let’s connect—email, phone, or LinkedIn works best."
-    };
-
-    const bubble=document.getElementById('coach-bubble');
-    const coachText=document.getElementById('coach-text');
-    const avatarBtn=document.getElementById('avatar');
-    const sections=['home','about','experience','projects','skills','education','contact'].map(id=>({id,el:document.getElementById(id)}));
-
-    // Typing effect (respect reduced motion)
-    let typeTimer; const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    function typeMessage(msg){
-      clearInterval(typeTimer); coachText.textContent='';
-      if(prefersReduced){ coachText.textContent=msg; return;}
-      let i=0; typeTimer=setInterval(()=>{ coachText.textContent += msg.charAt(i++); if(i>=msg.length) clearInterval(typeTimer); }, 12);
-    }
-
-    // IntersectionObserver for bubble hints
-    const io=new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          const id=e.target.id; typeMessage(messages[id]||'');
-          bubble.classList.remove('hidden');
-          document.querySelectorAll('.nav-dot').forEach(dot=>dot.classList.remove('bg-white','bg-indigo-600','active-dot'));
-          const link=document.querySelector(`a[href="#${id}"] .nav-dot`);
-          if(link) link.classList.add('bg-white','active-dot');
-        }
-      });
-    },{threshold:0.5});
-
-    function positionBubble(){
-      if (bubble.classList.contains('hidden')) return;
-      const r = avatarBtn.getBoundingClientRect();
-      const bw = bubble.offsetWidth;
-      const bh = bubble.offsetHeight;
-      let left = r.left - bw - 12;
-      if (left < 8) left = r.right + 12;
-      let top = r.top + (r.height / 2) - (bh / 2);
-      if (top < 8) top = 8;
-      if (top + bh > window.innerHeight - 8) top = window.innerHeight - bh - 8;
-      bubble.style.left = left + 'px';
-      bubble.style.top  = top + 'px';
-    }
-
-    avatarBtn.addEventListener('click', ()=>{
-      bubble.classList.toggle('hidden');
-      positionBubble();
-    });
-    ['scroll','resize','pointermove'].forEach(ev=>window.addEventListener(ev, positionBubble, {passive:true}));
-
-    async function init(){
-      document.getElementById('year').textContent=new Date().getFullYear();
-
-      let data;
-      try{
-        const res=await fetch('./data.json',{cache:'no-store'});
-        data = res.ok ? await res.json() : fallbackData;
-      }catch(e){ data=fallbackData; }
-
-      // About + CV
-      renderAbout(data.about || fallbackData.about, data.cv_url || fallbackData.cv_url);
-
-      // Other sections
-      renderExperience(data.experience||[]);
-      renderProjects(data.projects||[]);
-      renderSkills(data.skills||[]);
-      renderEduCert(data.education||{degrees:[],certs:[]});
-
-      // Observe sections for bubble hints
-      sections.forEach(s=>io.observe(s.el));
-
-      // Initial bubble placement
-      setTimeout(positionBubble, 100);
-    }
-    init();
   </script>
-
-  <!-- Single bubble follow script (duplicates removed) -->
 </body>
 </html>
