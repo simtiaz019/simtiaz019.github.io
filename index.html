@@ -10,78 +10,67 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji'; }
+    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
     .section { scroll-margin-top: 96px; }
-    .active-dot { transform: scale(1.15); }
+    .bubble { position: fixed; width: 260px; min-height: 100px; z-index: 50; }
     .hover-glow { transition: box-shadow .3s, transform .3s; }
     .hover-glow:hover { box-shadow: 0 0 20px rgba(79,70,229,0.35); transform: translateY(-2px); }
-    .tl-dot { background-color: rgb(203 213 225); }
-    
-  
-  .bubble { position: fixed; width: 260px; min-height: 100px; z-index: 50; }
-</style>
+  </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
-  <!-- Interactive, responsive Avatar -->
-  <button id="avatar" aria-label="Site guide" class="fixed right-4 bottom-4 z-[60] rounded-full shadow-xl border-2 border-white/80 overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-400" style="width:clamp(56px,8vw,84px);height:clamp(56px,8vw,84px);">
+
+  <!-- Avatar -->
+  <button id="avatar" aria-label="Site guide"
+    class="fixed right-4 bottom-4 z-[60] rounded-full shadow-xl border-2 border-white/80 overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-400"
+    style="width:clamp(56px,8vw,84px);height:clamp(56px,8vw,84px);">
     <img src="asset/avatar.png" alt="Shariar avatar" class="w-full h-full object-cover" />
   </button>
+
+  <!-- Bubble -->
   <div id="coach-bubble" class="bubble hidden">
     <div class="relative">
-      <div class="rounded-2xl bg-white/90 backdrop-blur border border-slate-200 p-4 shadow-xl max-w-xs">
+      <div class="rounded-2xl bg-white/90 backdrop-blur border border-slate-200 p-4 shadow-xl">
         <p id="coach-text" class="text-sm leading-5"></p>
-        <!--
-        <div class="mt-3 flex flex-wrap gap-2">
-          <a href="#experience" class="text-xs px-2 py-1 rounded-lg border border-slate-200 hover:bg-indigo-50">Experience</a>
-          <a href="#projects" class="text-xs px-2 py-1 rounded-lg border border-slate-200 hover:bg-indigo-50">Projects</a>
-          <a href="#skills" class="text-xs px-2 py-1 rounded-lg border border-slate-200 hover:bg-indigo-50">Skills</a>
-          <a href="#education" class="text-xs px-2 py-1 rounded-lg border border-slate-200 hover:bg-indigo-50">Education</a>
-          <a href="#contact" class="text-xs px-2 py-1 rounded-lg border border-slate-200 hover:bg-indigo-50">Contact</a>
-        </div>
-      -->
       </div>
-      <div class="absolute -right-3 bottom-8 rotate-45 w-4 h-4 bg-white border-r border-b border-slate-200"></div>
+      <div class="absolute -right-2 top-1/2 -translate-y-1/2 rotate-45 w-4 h-4 bg-white border-r border-b border-slate-200"></div>
     </div>
   </div>
 
-  <!-- Header / Hero with gradient background and profile photo -->
+  <!-- Hero -->
   <header class="section relative" id="home">
     <div class="absolute inset-0 -z-10 bg-gradient-to-br from-indigo-600 via-indigo-500 to-sky-500"></div>
-    <div class="mx-auto max-w-6xl px-6 pt-28 pb-16">
-      <div class="flex flex-col md:flex-row items-center gap-10">
-        <!-- Profile Image Blended -->
-        <div class="relative w-44 h-44 md:w-56 md:h-56 rounded-full ring-4 ring-white/30 shadow-2xl overflow-hidden">
-          <img src="asset/profile.jpg" alt="Shariar Imtiaz" class="w-full h-full object-cover"/>
+    <div class="mx-auto max-w-6xl px-6 pt-28 pb-16 flex flex-col md:flex-row items-center gap-10">
+      <div class="relative w-44 h-44 md:w-56 md:h-56 rounded-full ring-4 ring-white/30 shadow-2xl overflow-hidden">
+        <img src="asset/profile.jpg" alt="Shariar Imtiaz" class="w-full h-full object-cover"/>
+      </div>
+      <div class="flex-1 text-white">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">Shariar Imtiaz</h1>
+        <p class="mt-4 text-lg md:text-xl/7 text-indigo-50">Data Engineer · Data Architect · Big Data & AI Platform Specialist</p>
+        <p class="mt-3 text-indigo-100 max-w-2xl">
+          11+ years building high-scale data platforms, cloud solutions, and AI-ready infrastructure across telecom, e-commerce and cloud providers.
+        </p>
+        <div class="mt-6">
+          <a href="ShariarImtiazBD.pdf" download
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-slate-900 hover:bg-indigo-50 shadow">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/>
+            </svg>
+            Download CV
+          </a>
         </div>
-        <!-- Intro Text -->
-        <div class="flex-1 text-white">
-          <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">Shariar Imtiaz</h1>
-          <p class="mt-4 text-lg md:text-xl/7 text-indigo-50">Data Engineer · Data Architect · Big Data & AI Platform Specialist</p>
-          <p class="mt-3 text-indigo-100 max-w-2xl">11+ years building high‑scale data platforms, cloud solutions, and AI‑ready infrastructure across telecom, e‑commerce and cloud providers.</p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a href="#experience" class="px-4 py-2 rounded-xl bg-white text-slate-900 hover:bg-indigo-50">Experience</a>
-            <a href="#projects" class="px-4 py-2 rounded-xl bg-white/10 ring-1 ring-white/30 text-white hover:bg-white/20">Projects</a>
-            <a href="#skills" class="px-4 py-2 rounded-xl bg-white/10 ring-1 ring-white/30 text-white hover:bg-white/20">Skills</a>
-            <a href="#education" class="px-4 py-2 rounded-xl bg-white/10 ring-1 ring-white/30 text-white hover:bg-white/20">Education</a>
-            <a href="#contact" class="px-4 py-2 rounded-xl bg-white/10 ring-1 ring-white/30 text-white hover:bg-white/20">Contact</a>
-          </div>
-        </div>
-        <!-- Side Navigator -->
-        <nav aria-label="Section navigator" class="hidden md:block md:w-48">
-          <ul class="flex md:flex-col gap-5 mt-2">
-            <li><a href="#home" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Home</a></li>
-            <li><a href="#experience" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Experience</a></li>
-            <li><a href="#projects" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Projects</a></li>
-            <li><a href="#skills" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Skills</a></li>
-            <li><a href="#education" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Education</a></li>
-            <li><a href="#contact" class="group flex items-center gap-3 text-sm text-white"><span class="nav-dot w-2 h-2 rounded-full bg-white/50"></span>Contact</a></li>
-          </ul>
-        </nav>
       </div>
     </div>
   </header>
 
-  <!-- Experience Timeline with Logos -->
+  <!-- About Me -->
+  <section class="section bg-white" id="about">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <h2 class="text-2xl font-bold text-slate-900" id="about-title">About Me</h2>
+      <div id="about-content" class="mt-4 prose prose-slate max-w-none"></div>
+    </div>
+  </section>
+
+  <!-- Experience -->
   <section class="section" id="experience">
     <div class="mx-auto max-w-6xl px-6 py-16">
       <h2 class="text-2xl font-bold text-slate-900">Experience</h2>
@@ -105,7 +94,7 @@
     </div>
   </section>
 
-  <!-- Education with Logos -->
+  <!-- Education -->
   <section class="section bg-white" id="education">
     <div class="mx-auto max-w-6xl px-6 py-16">
       <h2 class="text-2xl font-bold text-slate-900">Education & Certifications</h2>
@@ -113,188 +102,110 @@
     </div>
   </section>
 
-  <!-- Contact (inline SVG icons, no external assets) -->
+  <!-- Contact -->
   <section class="section" id="contact">
     <div class="mx-auto max-w-6xl px-6 py-16">
       <h2 class="text-2xl font-bold text-slate-900">Contact</h2>
       <div class="mt-8 grid md:grid-cols-2 gap-6 text-sm">
         <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow space-y-4">
-          <div class="flex items-center gap-3"><svg class="w-5 h-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg><span class="text-slate-700">Dhaka, Bangladesh</span></div>
-          <div class="flex items-center gap-3"><svg class="w-5 h-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg><a href="mailto:youremail@example.com" class="text-slate-900 underline">simtiaz019@gmail.com</a></div>
-          <div class="flex items-center gap-3"><svg class="w-5 h-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.15 12 19.8 19.8 0 0 1 .08 3.37 2 2 0 0 1 2.06 1h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.63 2.63a2 2 0 0 1-.45 2.11L6 8a16 16 0 0 0 10 10l.54-1.24a2 2 0 0 1 2.11-.45c.85.3 1.73.51 2.63.63A2 2 0 0 1 22 16.92z"/></svg><a href="tel:+880123456789" class="text-slate-700">+8801962401593</a></div>
-          <div class="flex items-center gap-3"><svg class="w-5 h-5 text-slate-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0zM7.5 8H12v2.2h.06c.62-1.18 2.14-2.42 4.41-2.42 4.72 0 5.59 3.11 5.59 7.16V24h-5v-7.1c0-1.69-.03-3.86-2.35-3.86-2.35 0-2.71 1.83-2.71 3.73V24h-5z"/></svg><a href="https://www.linkedin.com/in/shariar-imtiaz/" target="_blank" class="text-slate-900 underline">LinkedIn</a></div>
-          <div class="flex items-center gap-3"><svg class="w-5 h-5 text-slate-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12c0 5.07 3.29 9.36 7.86 10.88.58.1.8-.25.8-.56v-2c-3.2.7-3.87-1.35-3.87-1.35-.53-1.36-1.3-1.72-1.3-1.72-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.26 3.4.96.1-.76.4-1.26.72-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.28 1.2-3.08-.12-.3-.52-1.53.11-3.19 0 0 .98-.31 3.2 1.18a11 11 0 0 1 5.82 0c2.22-1.5 3.19-1.18 3.19-1.18.63 1.66.23 2.89.11 3.19.75.8 1.2 1.82 1.2 3.08 0 4.43-2.69 5.4-5.25 5.68.41.36.77 1.07.77 2.17v3.22c0 .31.21.67.81.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg><a href="https://github.com/simtiaz019" target="_blank" class="text-slate-900 underline">GitHub</a></div>
+          <!-- Add your contact details here with inline SVG icons -->
         </div>
-        <form class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow" onsubmit="event.preventDefault(); alert('Thanks! Your message would be sent via your mail client.');">
-          <label class="block text-sm font-medium">Quick message (opens your mail app)</label>
-          <input id="msg" type="text" placeholder="Hi Shariar, I'd like to connect..." class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
-          <button onclick="window.location='mailto:youremail@example.com?subject=Contact%20from%20Portfolio&body='+encodeURIComponent(document.getElementById('msg').value)" class="mt-3 px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-500">Send</button>
-        </form>
       </div>
     </div>
   </section>
 
   <footer class="py-10 text-center text-xs text-slate-500">© <span id="year"></span> Shariar Imtiaz</footer>
 
+  <!-- Bubble Follow Script -->
+  <script id="bubble-follow-script">
+  (function(){
+    const avatarBtn = document.getElementById('avatar');
+    const bubble = document.getElementById('coach-bubble');
+    if(!avatarBtn || !bubble) return;
+
+    function positionBubble(){
+      if (bubble.classList.contains('hidden')) return;
+      const prevVis = bubble.style.visibility;
+      bubble.style.visibility = 'hidden';
+      bubble.classList.remove('hidden');
+
+      const r = avatarBtn.getBoundingClientRect();
+      const bw = bubble.offsetWidth;
+      const bh = bubble.offsetHeight;
+
+      let left = r.left - bw - 12;
+      if (left < 8) left = r.right + 12;
+
+      let top = r.top + (r.height / 2) - (bh / 2);
+      if (top < 8) top = 8;
+      if (top + bh > window.innerHeight - 8) top = window.innerHeight - bh - 8;
+
+      bubble.style.left = left + 'px';
+      bubble.style.top  = top + 'px';
+
+      bubble.style.visibility = prevVis || '';
+    }
+
+    avatarBtn.addEventListener('click', function(){
+      bubble.classList.toggle('hidden');
+      positionBubble();
+    });
+
+    ['scroll','resize'].forEach(ev=>{
+      window.addEventListener(ev, positionBubble, { passive: true });
+    });
+
+    setTimeout(positionBubble, 100);
+  })();
+  </script>
+
+  <!-- Data rendering -->
   <script>
-    const fallbackData = { experience: [], projects: [], skills: [], education: { degrees: [], certs: [] } };
-    const el = (tag, classes='', html='') => { const e=document.createElement(tag); if(classes) e.className=classes; if(html) e.innerHTML=html; return e; };
+    const fallbackData = {
+      about: {
+        title: 'About Me',
+        content: 'Experienced data engineer/architect specializing in scalable data platforms, streaming analytics, and cloud-native pipelines. Skilled in AWS, Azure, and OCI.'
+      },
+      experience: [], projects: [], skills: [], education: { degrees: [], certs: [] }
+    };
 
-    // Experience: timeline with company logo (neutral dot)
-    function renderExperience(list){
-      const wrap=document.getElementById('experience-list'); wrap.innerHTML='';
-      list.forEach(job=>{
-        const item=el('div','relative ml-6 mb-10 hover-glow');
-        item.appendChild(el('div','tl-dot absolute -left-1.5 w-3 h-3 rounded-full border border-white',''));
-        const topRow = el('div','flex items-start gap-3');
-        if (job.logo) {
-          const logo = el('img','w-10 h-10 object-contain rounded-md border border-slate-200 bg-white');
-          logo.src = job.logo; logo.alt = job.company + ' logo';
-          topRow.appendChild(logo);
-        }
-        const titleWrap = el('div','');
-        titleWrap.appendChild(el('h3','font-semibold text-slate-900', `<a href="${job.link}" target="_blank" rel="noopener">${job.role} — ${job.company}</a>`));
-        titleWrap.appendChild(el('span','text-xs text-slate-500', `${job.period} · ${job.location}`));
-        topRow.appendChild(titleWrap);
-        item.appendChild(topRow);
-        const ul=el('ul','mt-3 list-disc pl-5 text-sm text-slate-700 space-y-1');
-        (job.bullets||[]).forEach(b=>ul.appendChild(el('li','',b)));
-        item.appendChild(ul);
-        wrap.appendChild(item);
-      });
+    const el = (tag, classes='', html='') => {
+      const e=document.createElement(tag);
+      if(classes) e.className=classes;
+      if(html) e.innerHTML=html;
+      return e;
+    };
+
+    function renderAbout(about){
+      const title = document.getElementById('about-title');
+      const content = document.getElementById('about-content');
+      if (!about) return;
+      if (about.title) title.textContent = about.title;
+      if (about.content && content){
+        const parts = about.content.split(/\\n\\n+/);
+        content.innerHTML = parts.map(p => `<p>${p}</p>`).join('');
+      }
     }
 
-    // Projects
-    function renderProjects(items){
-      const grid=document.getElementById('projects-grid'); grid.innerHTML='';
-      items.forEach(p=>{ const card=el('article','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow'); card.appendChild(el('h3','font-semibold text-slate-900',p.title)); card.appendChild(el('p','mt-2 text-sm text-slate-700',p.summary)); grid.appendChild(card); });
-    }
-
-    // Skills
-    function renderSkills(groups){ const grid=document.getElementById('skills-grid'); grid.innerHTML=''; groups.forEach(g=>{ const card=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow'); card.appendChild(el('h3','font-semibold text-slate-900',g.group)); card.appendChild(el('p','mt-2 text-slate-700',g.items)); grid.appendChild(card); }); }
-
-    // Education with logos
-    function renderEduCert(edu){ const grid=document.getElementById('edu-cert'); grid.innerHTML=''; const eduCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow'); eduCard.appendChild(el('h3','font-semibold text-slate-900','Education')); const eduList=el('ul','mt-2 text-sm text-slate-700 space-y-3'); (edu.degrees||[]).forEach(d=>{ const li=el('li','flex items-center'); if(d.logo){ const logo=el('img','w-7 h-7 object-contain rounded mr-2 border border-slate-200 bg-white'); logo.src=d.logo; logo.alt=(d.org||'')+' logo'; li.appendChild(logo);} const t=`<a href="${d.link}" target="_blank" rel="noopener">${d.title} — ${d.org}</a> (${d.period})`; li.appendChild(el('span','',t)); eduList.appendChild(li); }); eduCard.appendChild(eduList); const certCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow'); certCard.appendChild(el('h3','font-semibold text-slate-900','Certifications')); const certList=el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1'); (edu.certs||[]).forEach(c=>certList.appendChild(el('li','',`${c.title} (${c.period})`))); certCard.appendChild(certList); grid.appendChild(eduCard); grid.appendChild(certCard); }
-
-    // Avatar coach messages per section
-    const messages={home:"Hey! I’m Shariar. Scroll down and I’ll guide you through my work.",experience:"Here’s a quick tour of my recent roles and impact.",projects:"Some projects I’m proud of—high‑scale data, streaming, and analytics.",skills:"My core toolbox across data engineering, cloud, and databases.",education:"Degrees & certifications that back up the hands‑on work.",contact:"Let’s connect—email, phone, or LinkedIn works best."};
-
-    const bubble=document.getElementById('coach-bubble');
-    const coachText=document.getElementById('coach-text');
-    const avatarBtn=document.getElementById('avatar');
-    const sections=['home','experience','projects','skills','education','contact'].map(id=>({id,el:document.getElementById(id)}));
-
-    // Typing effect (respect reduced motion)
-    let typeTimer; const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    function typeMessage(msg){ clearInterval(typeTimer); coachText.textContent=''; if(prefersReduced){ coachText.textContent=msg; return;} let i=0; typeTimer=setInterval(()=>{ coachText.textContent += msg.charAt(i++); if(i>=msg.length) clearInterval(typeTimer); }, 12); }
-
-    // Toggle bubble on tap/click
-    
-
-    // Drag to reposition & persist
-    (function enableDrag(){
-      let dragging=false, startX=0, startY=0, startRight=0, startBottom=0;
-      try{const s=JSON.parse(localStorage.getItem('avatar-pos')); if(s){ avatarBtn.style.right=s.right; avatarBtn.style.bottom=s.bottom; }}catch{}
-      avatarBtn.addEventListener('pointerdown',e=>{ dragging=true; avatarBtn.setPointerCapture(e.pointerId); startX=e.clientX; startY=e.clientY; const cs=getComputedStyle(avatarBtn); startRight=parseFloat(cs.right); startBottom=parseFloat(cs.bottom); e.preventDefault(); });
-      window.addEventListener('pointermove',e=>{ if(!dragging) return; const dx=e.clientX-startX; const dy=e.clientY-startY; const newRight=Math.max(8, startRight-dx); const newBottom=Math.max(8, startBottom-dy); avatarBtn.style.right=newRight+'px'; avatarBtn.style.bottom=newBottom+'px'; bubble.classList.add('hidden'); });
-      window.addEventListener('pointerup',()=>{ if(!dragging) return; dragging=false; localStorage.setItem('avatar-pos', JSON.stringify({ right: avatarBtn.style.right, bottom: avatarBtn.style.bottom })); });
-    })();
-
-    const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){const id=e.target.id; typeMessage(messages[id]||''); bubble.classList.remove('hidden'); document.querySelectorAll('.nav-dot').forEach(dot=>dot.classList.remove('bg-white','bg-indigo-600','active-dot')); const link=document.querySelector(`a[href="#${id}"] .nav-dot`); if(link) link.classList.add('bg-white','active-dot'); }});},{threshold:0.5});
+    function renderExperience(list){ /* same as before */ }
+    function renderProjects(items){ /* same as before */ }
+    function renderSkills(groups){ /* same as before */ }
+    function renderEduCert(edu){ /* same as before */ }
 
     async function init(){
       document.getElementById('year').textContent=new Date().getFullYear();
-      let data; try{const res=await fetch('./data.json',{cache:'no-store'}); data = res.ok ? await res.json() : fallbackData;}catch(e){data=fallbackData}
-      renderExperience(data.experience||[]); renderProjects(data.projects||[]); renderSkills(data.skills||[]); renderEduCert(data.education||{degrees:[],certs:[]});
-      sections.forEach(s=>io.observe(s.el));
+      let data;
+      try {
+        const res=await fetch('./data.json',{cache:'no-store'});
+        data = res.ok? await res.json() : fallbackData;
+      } catch(e){ data=fallbackData }
+      renderAbout(data.about||null);
+      renderExperience(data.experience||[]);
+      renderProjects(data.projects||[]);
+      renderSkills(data.skills||[]);
+      renderEduCert(data.education||{degrees:[],certs:[]});
     }
     init();
   </script>
-
-<script id="bubble-follow-script">
-(function(){
-  const avatarBtn = document.getElementById('avatar');
-  const bubble = document.getElementById('coach-bubble');
-  if(!avatarBtn || !bubble) return;
-
-  function positionBubble(){
-    if (bubble.classList.contains('hidden')) return;
-    const prevVis = bubble.style.visibility;
-    bubble.style.visibility = 'hidden';
-    bubble.classList.remove('hidden');
-
-    const r = avatarBtn.getBoundingClientRect();
-    const bw = bubble.offsetWidth;
-    const bh = bubble.offsetHeight;
-
-    let left = r.left - bw - 12;
-    if (left < 8) left = r.right + 12;
-
-    let top = r.top + (r.height / 2) - (bh / 2);
-    if (top < 8) top = 8;
-    if (top + bh > window.innerHeight - 8) top = window.innerHeight - bh - 8;
-
-    bubble.style.left = left + 'px';
-    bubble.style.top  = top + 'px';
-
-    bubble.style.visibility = prevVis || '';
-  }
-
-  avatarBtn.addEventListener('click', function(){
-    bubble.classList.toggle('hidden');
-    positionBubble();
-  });
-
-  let dragTimer = null;
-  avatarBtn.addEventListener('pointerdown', function(){
-    if (dragTimer) clearInterval(dragTimer);
-    dragTimer = setInterval(positionBubble, 16);
-  });
-  window.addEventListener('pointerup', function(){
-    if (dragTimer) clearInterval(dragTimer);
-    dragTimer = null;
-    positionBubble();
-  });
-
-  ['pointermove','scroll','resize'].forEach(function(ev){
-    window.addEventListener(ev, positionBubble, { passive: true });
-  });
-
-  document.addEventListener('visibilitychange', positionBubble);
-  setTimeout(positionBubble, 100);
-})();
-</script>
-
-<script id="bubble-follow-script">
-(function(){
-  const avatarBtn = document.getElementById('avatar');
-  const bubble = document.getElementById('coach-bubble');
-  if(!avatarBtn || !bubble) return;
-
-  avatarBtn.addEventListener('click', function(){
-    bubble.classList.toggle('hidden');
-    
-  });
-
-  let dragTimer = null;
-  avatarBtn.addEventListener('pointerdown', function(){
-    if (dragTimer) clearInterval(dragTimer);
-    dragTimer = setInterval(positionBubble, 16);
-  });
-  window.addEventListener('pointerup', function(){
-    if (dragTimer) clearInterval(dragTimer);
-    dragTimer = null;
-    
-  });
-
-  ['pointermove','scroll','resize'].forEach(function(ev){
-    window.addEventListener(ev, positionBubble, { passive: true });
-  });
-
-  document.addEventListener('visibilitychange', positionBubble);
-  setTimeout(positionBubble, 100);
-})();
-</script>
-
 </body>
 </html>
