@@ -1,7 +1,17 @@
 {
+  "cv_url": "asset/Shariar_Imtiaz_CV.pdf",
   "about": {
-    "title": "About Me",
-    "content": "Experienced data engineer/architect specializing in building scalable data platforms, streaming analytics, and cloud-native pipelines across AWS, Azure, and OCI. Passionate about reliability, cost-optimization, and turning large-scale data into real-time insights.\n\nI enjoy designing event-driven systems with Kafka, Spark, and Airflow, and delivering BI that impacts day-to-day decisions."
+    "summary": "Seasoned data professional with 11+ years in scalable data & AI platforms...",
+    "highlights": [
+      "Built telco-scale streaming analytics on OCI",
+      "Designed RAG pipelines with Oracle Database 23ai Vector Search",
+      "Delivered Oracle APEX data apps with SSO & RBAC"
+    ],
+    "facts": {
+      "Current Role": "Data Architect",
+      "Location": "Dhaka, Bangladesh",
+      "Interests": "Vector Search, RAG, APEX"
+    }
   },
   "hero": {
     "title": "Shariar Imtiaz",
