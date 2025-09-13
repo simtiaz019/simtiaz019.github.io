@@ -95,12 +95,6 @@
         <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">Highlights</h3>
         <ul id="about-highlights" class="mt-2 list-disc pl-5 text-slate-700 space-y-1"></ul>
       </div>
-
-      <!-- quick facts -->
-      <div class="mt-6">
-        <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">Quick Facts</h3>
-        <dl id="about-facts" class="mt-2 grid md:grid-cols-2 gap-x-8 gap-y-2 text-slate-700"></dl>
-      </div>
     </div>
   </section>
 
@@ -213,27 +207,6 @@
           const li = document.createElement('li');
           li.textContent = item;
           hiEl.appendChild(li);
-        });
-      }
-
-      // facts (key/value)
-      const factsEl = document.getElementById('about-facts');
-      if (factsEl) {
-        factsEl.innerHTML = '';
-        const facts = about.facts || {};
-        Object.keys(facts).forEach(key => {
-          const dt = document.createElement('dt');
-          dt.className = 'font-medium text-slate-900';
-          dt.textContent = key;
-
-          const dd = document.createElement('dd');
-          dd.className = 'text-slate-700';
-          dd.textContent = facts[key];
-
-          const wrap = document.createElement('div');
-          wrap.appendChild(dt);
-          wrap.appendChild(dd);
-          factsEl.appendChild(wrap);
         });
       }
     }
