@@ -30,9 +30,6 @@
   <button id="avatar" aria-label="Site guide" class="fixed right-4 bottom-4 z-[60] rounded-full shadow-xl border-2 border-white/80 overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-400" style="width:clamp(56px,8vw,84px);height:clamp(56px,8vw,84px);">
     <img src="asset/avatar.png" alt="Shariar avatar" class="w-full h-full object-cover" />
   </button>
-  <div id="avatar-tip" class="fixed pointer-events-none select-none px-2 py-1 rounded-md text-xs bg-black/80 text-white shadow hidden z-[70]">
-  💡 Click to reveal more information
-  </div>
 
   <div id="coach-bubble" class="bubble">
     <div class="relative">
@@ -104,6 +101,11 @@
       <div id="projects-grid" class="mt-6 grid md:grid-cols-2 gap-6"></div>
     </div>
   </section>
+
+  <div id="project-tip" class="fixed pointer-events-none select-none px-2 py-1 rounded-md text-xs bg-black/80 text-white shadow hidden z-[70]">
+  💡 Click to see more details
+  </div>
+
 
   <!-- Skills -->
   <section class="section" id="skills">
@@ -262,17 +264,14 @@
 
   <script>
     (function(){
-      const avatar = document.getElementById('avatar');
-      const tip = document.getElementById('avatar-tip');
-      if (!avatar || !tip) return;
+      const tip = document.getElementById('project-tip');
+      if (!tip) return;
 
       function moveTip(e){
-        // offset tooltip a little so it doesn’t sit under the cursor
         const OFFSET = 14;
         let x = e.clientX + OFFSET;
         let y = e.clientY + OFFSET;
 
-        // keep inside viewport
         const rect = tip.getBoundingClientRect();
         const maxX = window.innerWidth  - rect.width  - 6;
         const maxY = window.innerHeight - rect.height - 6;
@@ -283,22 +282,24 @@
         tip.style.top  = y + 'px';
       }
 
-      avatar.addEventListener('mouseenter', (e) => {
-        tip.classList.remove('hidden');
-        moveTip(e);
-      });
-      avatar.addEventListener('mousemove', moveTip);
-      avatar.addEventListener('mouseleave', () => tip.classList.add('hidden'));
+      function attachTooltip(card){
+        card.addEventListener('mouseenter', (e) => {
+          tip.classList.remove('hidden');
+          moveTip(e);
+        });
+        card.addEventListener('mousemove', moveTip);
+        card.addEventListener('mouseleave', () => tip.classList.add('hidden'));
+      }
 
-      // Optional: also show tooltip on touch for a moment
-      avatar.addEventListener('touchstart', (e) => {
-        tip.classList.remove('hidden');
-        const t = e.touches[0];
-        moveTip({ clientX: t.clientX, clientY: t.clientY });
-        setTimeout(()=> tip.classList.add('hidden'), 1200);
-      }, {passive:true});
+      // Attach tooltips after projects are rendered
+      const origRenderProjects = renderProjects;
+      renderProjects = function(items){
+        origRenderProjects(items);
+        document.querySelectorAll('#projects-grid article').forEach(attachTooltip);
+      }
     })();
   </script>
+
 
 
 
