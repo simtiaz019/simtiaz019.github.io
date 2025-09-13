@@ -18,7 +18,15 @@
     .tl-dot { background-color: rgb(203 213 225); }
     
   
-  .bubble { position: fixed; width: 260px; min-height: 100px; z-index: 50; }
+  .bubble {
+  position: fixed;
+  /* keep 16px margins on small screens */
+  width: min(260px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  min-height: 100px;
+  z-index: 50;
+}
+
 </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
@@ -208,90 +216,62 @@
     init();
   </script>
 
-<script id="bubble-follow-script">
-(function(){
-  const avatarBtn = document.getElementById('avatar');
-  const bubble = document.getElementById('coach-bubble');
-  if(!avatarBtn || !bubble) return;
+  <script id="bubble-follow-script">
+    (function(){
+      const avatarBtn = document.getElementById('avatar');
+      const bubble = document.getElementById('coach-bubble');
+      if (!avatarBtn || !bubble) return;
 
-  function positionBubble(){
-    if (bubble.classList.contains('hidden')) return;
-    const prevVis = bubble.style.visibility;
-    bubble.style.visibility = 'hidden';
-    bubble.classList.remove('hidden');
+      function positionBubble(){
+        if (bubble.classList.contains('hidden')) return;
 
-    const r = avatarBtn.getBoundingClientRect();
-    const bw = bubble.offsetWidth;
-    const bh = bubble.offsetHeight;
+        const GAP = 12;
+        const MARGIN = 8;
 
-    let left = r.left - bw - 12;
-    if (left < 8) left = r.right + 12;
+        // measure without flicker
+        const prevVis = bubble.style.visibility;
+        bubble.style.visibility = 'hidden';
+        bubble.classList.remove('hidden');
 
-    let top = r.top + (r.height / 2) - (bh / 2);
-    if (top < 8) top = 8;
-    if (top + bh > window.innerHeight - 8) top = window.innerHeight - bh - 8;
+        const r  = avatarBtn.getBoundingClientRect();
 
-    bubble.style.left = left + 'px';
-    bubble.style.top  = top + 'px';
+        // actual measured size (but capped to screen)
+        let bw = Math.min(bubble.offsetWidth,  window.innerWidth  - 2*MARGIN);
+        let bh = Math.min(bubble.offsetHeight, window.innerHeight - 2*MARGIN);
 
-    bubble.style.visibility = prevVis || '';
-  }
+        // prefer placing to the LEFT of the avatar
+        let left = r.left - GAP - bw;
+        // if not enough room on the left, try the RIGHT
+        if (left < MARGIN) {
+          left = r.right + GAP;
+        }
+        // clamp horizontally so it never goes off-screen
+        left = Math.max(MARGIN, Math.min(left, window.innerWidth - bw - MARGIN));
 
-  avatarBtn.addEventListener('click', function(){
-    bubble.classList.toggle('hidden');
-    positionBubble();
-  });
+        // vertically center near the avatar, then clamp
+        let top = r.top + (r.height/2) - (bh/2);
+        top = Math.max(MARGIN, Math.min(top, window.innerHeight - bh - MARGIN));
 
-  let dragTimer = null;
-  avatarBtn.addEventListener('pointerdown', function(){
-    if (dragTimer) clearInterval(dragTimer);
-    dragTimer = setInterval(positionBubble, 16);
-  });
-  window.addEventListener('pointerup', function(){
-    if (dragTimer) clearInterval(dragTimer);
-    dragTimer = null;
-    positionBubble();
-  });
+        bubble.style.left = left + 'px';
+        bubble.style.top  = top  + 'px';
+        bubble.style.visibility = prevVis || '';
+      }
 
-  ['pointermove','scroll','resize'].forEach(function(ev){
-    window.addEventListener(ev, positionBubble, { passive: true });
-  });
+      // toggle + keep following during drag/scroll/resize
+      avatarBtn.addEventListener('click', () => { bubble.classList.toggle('hidden'); positionBubble(); });
 
-  document.addEventListener('visibilitychange', positionBubble);
-  setTimeout(positionBubble, 100);
-})();
-</script>
+      let dragTimer = null;
+      avatarBtn.addEventListener('pointerdown', () => { if (dragTimer) clearInterval(dragTimer); dragTimer = setInterval(positionBubble, 16); });
+      window.addEventListener('pointerup', () => { if (dragTimer) clearInterval(dragTimer); dragTimer = null; positionBubble(); });
 
-<script id="bubble-follow-script">
-(function(){
-  const avatarBtn = document.getElementById('avatar');
-  const bubble = document.getElementById('coach-bubble');
-  if(!avatarBtn || !bubble) return;
+      ['pointermove','scroll','resize','orientationchange'].forEach(ev => {
+        window.addEventListener(ev, positionBubble, { passive: true });
+      });
 
-  avatarBtn.addEventListener('click', function(){
-    bubble.classList.toggle('hidden');
-    
-  });
+      setTimeout(positionBubble, 100);
+    })();
+    </script>
 
-  let dragTimer = null;
-  avatarBtn.addEventListener('pointerdown', function(){
-    if (dragTimer) clearInterval(dragTimer);
-    dragTimer = setInterval(positionBubble, 16);
-  });
-  window.addEventListener('pointerup', function(){
-    if (dragTimer) clearInterval(dragTimer);
-    dragTimer = null;
-    
-  });
-
-  ['pointermove','scroll','resize'].forEach(function(ev){
-    window.addEventListener(ev, positionBubble, { passive: true });
-  });
-
-  document.addEventListener('visibilitychange', positionBubble);
-  setTimeout(positionBubble, 100);
-})();
-</script>
 
 </body>
 </html>
