@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog Post — Shariar Imtiaz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .prose { max-width: 65ch; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <header class="bg-indigo-600 text-white">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <h1 class="text-xl font-bold">Blog</h1>
+      <a href="blogs.html" class="underline">← Back to Blogs</a>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 py-10">
+    <!-- Title + Date -->
+    <div class="mb-8">
+      <h1 id="post-title" class="text-3xl font-extrabold text-slate-900"></h1>
+      <p id="post-date" class="text-sm text-slate-500"></p>
+    </div>
+
+    <!-- Blog content -->
+    <article id="blog" class="prose prose-slate bg-white rounded-xl p-6 shadow"></article>
+
+    <!-- Navigation -->
+    <div id="nav-links" class="mt-10 flex justify-between text-sm font-semibold text-indigo-600"></div>
+  </main>
+
+  <footer class="py-10 text-center text-xs text-slate-500">
+    © <span id="year"></span> Shariar Imtiaz
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function qs(key){ return new URLSearchParams(location.search).get(key); }
+
+    let blogs = [];
+
+    async function loadBlog(){
+      const file = qs('file');
+      if(!file){ document.getElementById('blog').innerHTML="<p>No blog specified.</p>"; return; }
+
+      // load manifest
+      try {
+        const res = await fetch('./blogs/index.json',{cache:'no-store'});
+        blogs = res.ok ? await res.json() : [];
+      } catch(e){ blogs = []; }
+
+      blogs.sort((a,b)=> b.file.localeCompare(a.file));
+
+      const idx = blogs.findIndex(b=>b.file===file);
+
+      // load markdown
+      try {
+        const res = await fetch('./blogs/'+file);
+        if(!res.ok) throw new Error("Failed to load");
+        const md = await res.text();
+
+        // extract title from first # Heading
+        const headingMatch = md.match(/^# (.+)/m);
+        const title = headingMatch ? headingMatch[1] : slugToTitle(file);
+        document.getElementById('post-title').textContent = title;
+
+        // extract date from filename
+        const dateMatch = file.match(/(\d{4}-\d{2}-\d{2})/);
+        const date = dateMatch ? new Date(dateMatch[1]) : null;
+        document.getElementById('post-date').textContent = date ? date.toDateString() : '';
+
+        // render markdown
+        document.getElementById('blog').innerHTML = marked.parse(md);
+      } catch(e){
+        document.getElementById('blog').innerHTML = "<p class='text-red-600'>Failed to load blog.</p>";
+      }
+
+      // navigation
+      const nav = document.getElementById('nav-links');
+      nav.innerHTML = '';
+
+      if(idx < blogs.length-1){ // next newer
+        const next = blogs[idx+1];
+        const a = document.createElement('a');
+        a.href = 'blog.html?file='+encodeURIComponent(next.file);
+        a.innerHTML = '← '+slugToTitle(next.file);
+        nav.appendChild(a);
+      } else {
+        nav.appendChild(document.createElement('span'));
+      }
+
+      if(idx > 0){ // previous older
+        const prev = blogs[idx-1];
+        const a = document.createElement('a');
+        a.href = 'blog.html?file='+encodeURIComponent(prev.file);
+        a.innerHTML = slugToTitle(prev.file)+' →';
+        nav.appendChild(a);
+      }
+    }
+
+    function slugToTitle(filename){
+      return filename
+        .replace(/^\d{4}-\d{2}-\d{2}-/,'')
+        .replace(/\.md$/,'')
+        .replace(/-/g,' ');
+    }
+
+    loadBlog();
+  </script>
+</body>
+</html>
