@@ -27,13 +27,12 @@
 </head>
 <body class="bg-slate-50 text-slate-900">
   <!-- Avatar -->
-  <button id="avatar" 
-    aria-label="Site guide" 
-    title="💡 Click me to reveal more information!"
-    class="fixed right-4 bottom-4 z-[60] rounded-full shadow-xl border-2 border-white/80 overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-400" 
-    style="width:clamp(56px,8vw,84px);height:clamp(56px,8vw,84px);">
+  <button id="avatar" aria-label="Site guide" class="fixed right-4 bottom-4 z-[60] rounded-full shadow-xl border-2 border-white/80 overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-400" style="width:clamp(56px,8vw,84px);height:clamp(56px,8vw,84px);">
     <img src="asset/avatar.png" alt="Shariar avatar" class="w-full h-full object-cover" />
   </button>
+  <div id="avatar-tip" class="fixed pointer-events-none select-none px-2 py-1 rounded-md text-xs bg-black/80 text-white shadow hidden z-[70]">
+  💡 Click to reveal more information
+  </div>
 
   <div id="coach-bubble" class="bubble">
     <div class="relative">
@@ -221,15 +220,87 @@
     (project.sections||[]).forEach(block=>content.appendChild(renderBlock(block)));
     const modal=document.getElementById('project-modal');
     modal.classList.remove('hidden'); modal.classList.add('flex');
+    showModal();
   }
 
   document.getElementById('close-modal').addEventListener('click',()=>{
     const modal=document.getElementById('project-modal');
     modal.classList.add('hidden'); modal.classList.remove('flex');
   });
-
-
   </script>
+
+  <script>
+    // Helpers
+    function showModal(){ const m=document.getElementById('project-modal'); m.classList.remove('hidden'); m.classList.add('flex'); }
+    function hideModal(){ const m=document.getElementById('project-modal'); m.classList.add('hidden'); m.classList.remove('flex'); }
+
+    // Wire up close actions once DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('project-modal');
+      const card  = document.getElementById('project-modal-card');
+      const btn   = document.getElementById('close-modal');
+
+      // Close on ✖
+      if (btn) btn.addEventListener('click', hideModal);
+
+      // Close on backdrop click (but not when clicking inside the card)
+      if (modal) modal.addEventListener('click', (e) => {
+        if (e.target === modal) hideModal();
+      });
+
+      // Close on Esc
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') hideModal();
+      });
+    });
+
+    // Replace your final two lines inside openProjectModal with this:
+    //   const modal=document.getElementById('project-modal');modal.classList.remove('hidden');modal.classList.add('flex');
+    // …and call:
+    // showModal();
+  </script>
+
+  <script>
+    (function(){
+      const avatar = document.getElementById('avatar');
+      const tip = document.getElementById('avatar-tip');
+      if (!avatar || !tip) return;
+
+      function moveTip(e){
+        // offset tooltip a little so it doesn’t sit under the cursor
+        const OFFSET = 14;
+        let x = e.clientX + OFFSET;
+        let y = e.clientY + OFFSET;
+
+        // keep inside viewport
+        const rect = tip.getBoundingClientRect();
+        const maxX = window.innerWidth  - rect.width  - 6;
+        const maxY = window.innerHeight - rect.height - 6;
+        if (x > maxX) x = maxX;
+        if (y > maxY) y = maxY;
+
+        tip.style.left = x + 'px';
+        tip.style.top  = y + 'px';
+      }
+
+      avatar.addEventListener('mouseenter', (e) => {
+        tip.classList.remove('hidden');
+        moveTip(e);
+      });
+      avatar.addEventListener('mousemove', moveTip);
+      avatar.addEventListener('mouseleave', () => tip.classList.add('hidden'));
+
+      // Optional: also show tooltip on touch for a moment
+      avatar.addEventListener('touchstart', (e) => {
+        tip.classList.remove('hidden');
+        const t = e.touches[0];
+        moveTip({ clientX: t.clientX, clientY: t.clientY });
+        setTimeout(()=> tip.classList.add('hidden'), 1200);
+      }, {passive:true});
+    })();
+  </script>
+
+
 
   <!-- Bubble positioning -->
   <script id="bubble-follow-script">
@@ -243,15 +314,16 @@
     })();
   </script>
 
-  <!-- Project Popup Modal -->
+  <!-- Project Modal -->
   <div id="project-modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
-      <button id="close-modal" class="absolute top-4 right-4 text-2xl text-slate-500 hover:text-slate-700">&times;</button>
+    <div id="project-modal-card" class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <button id="close-modal" class="absolute top-4 right-4 text-2xl text-slate-500 hover:text-slate-700" aria-label="Close">&times;</button>
       <h2 id="modal-title" class="text-2xl font-bold text-slate-900"></h2>
       <p id="modal-summary" class="mt-2 text-slate-600"></p>
       <div id="modal-content" class="mt-6 space-y-4"></div>
     </div>
   </div>
+
 
   <!-- highlight.js for code syntax -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
