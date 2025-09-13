@@ -147,7 +147,36 @@
     const fallbackData={experience:[],projects:[],skills:[],education:{degrees:[],certs:[]}};
     const el=(tag,classes='',html='')=>{const e=document.createElement(tag);if(classes)e.className=classes;if(html)e.innerHTML=html;return e;};
     function renderExperience(list){const wrap=document.getElementById('experience-list');wrap.innerHTML='';list.forEach(job=>{const item=el('div','relative ml-6 mb-10 hover-glow');item.appendChild(el('div','tl-dot absolute -left-1.5 w-3 h-3 rounded-full border border-white',''));const topRow=el('div','flex items-start gap-3');if(job.logo){const logo=el('img','w-10 h-10 object-contain rounded-md border border-slate-200 bg-white');logo.src=job.logo;logo.alt=job.company+' logo';topRow.appendChild(logo);}const titleWrap=el('div','');titleWrap.appendChild(el('h3','font-semibold text-slate-900',`<a href="${job.link}" target="_blank" rel="noopener">${job.role} — ${job.company}</a>`));titleWrap.appendChild(el('span','text-xs text-slate-500',`${job.period} · ${job.location}`));topRow.appendChild(titleWrap);item.appendChild(topRow);const ul=el('ul','mt-3 list-disc pl-5 text-sm text-slate-700 space-y-1');(job.bullets||[]).forEach(b=>ul.appendChild(el('li','',b)));item.appendChild(ul);wrap.appendChild(item);});}
-    function renderProjects(items){const grid=document.getElementById('projects-grid');grid.innerHTML='';items.forEach(p=>{const card=el('article','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');card.appendChild(el('h3','font-semibold text-slate-900',p.title));card.appendChild(el('p','mt-2 text-sm text-slate-700',p.summary));grid.appendChild(card);});}
+    function renderProjects(items){
+      const grid = document.getElementById('projects-grid');
+      grid.innerHTML = '';
+      items.forEach(p => {
+        const a = document.createElement('a');
+        a.href = `project.html?slug=${encodeURIComponent(p.slug || (p.title || '').toLowerCase().replace(/\s+/g,'-'))}`;
+        a.className = 'block rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow focus:outline-none';
+
+        const card = document.createElement('article');
+        if (p.cover) {
+          const img = document.createElement('img');
+          img.src = p.cover;
+          img.alt = p.title || 'Project cover';
+          img.className = 'w-full h-40 object-cover rounded-xl mb-4';
+          card.appendChild(img);
+        }
+        const h3 = document.createElement('h3');
+        h3.className = 'font-semibold text-slate-900';
+        h3.textContent = p.title;
+        card.appendChild(h3);
+
+        const pEl = document.createElement('p');
+        pEl.className = 'mt-2 text-sm text-slate-700';
+        pEl.textContent = p.summary || '';
+        card.appendChild(pEl);
+
+        a.appendChild(card);
+        grid.appendChild(a);
+      });
+    }
     function renderSkills(groups){const grid=document.getElementById('skills-grid');grid.innerHTML='';groups.forEach(g=>{const card=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');card.appendChild(el('h3','font-semibold text-slate-900',g.group));card.appendChild(el('p','mt-2 text-slate-700',g.items));grid.appendChild(card);});}
     function renderEduCert(edu){const grid=document.getElementById('edu-cert');grid.innerHTML='';const eduCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');eduCard.appendChild(el('h3','font-semibold text-slate-900','Education'));const eduList=el('ul','mt-2 text-sm text-slate-700 space-y-3');(edu.degrees||[]).forEach(d=>{const li=el('li','flex items-center');if(d.logo){const logo=el('img','w-7 h-7 object-contain rounded mr-2 border border-slate-200 bg-white');logo.src=d.logo;logo.alt=(d.org||'')+' logo';li.appendChild(logo);}const t=`<a href="${d.link}" target="_blank" rel="noopener">${d.title} — ${d.org}</a> (${d.period})`;li.appendChild(el('span','',t));eduList.appendChild(li);});eduCard.appendChild(eduList);const certCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');certCard.appendChild(el('h3','font-semibold text-slate-900','Certifications'));const certList=el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1');(edu.certs||[]).forEach(c=>certList.appendChild(el('li','',`${c.title} (${c.period})`)));certCard.appendChild(certList);grid.appendChild(eduCard);grid.appendChild(certCard);}
     function renderAbout(about={}){const sumEl=document.getElementById('about-summary');if(sumEl)sumEl.textContent=about.summary||'';const hiEl=document.getElementById('about-highlights');if(hiEl){hiEl.innerHTML='';(about.highlights||[]).forEach(item=>{const li=document.createElement('li');li.textContent=item;hiEl.appendChild(li);});}}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project — Shariar Imtiaz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- highlight.js for code syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <!-- (Optional) language packs -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    pre code { display: block; overflow-x: auto; padding: 1rem; border-radius: 0.75rem; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <header class="bg-white border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html#projects" class="text-sm text-indigo-600 hover:underline">&larr; Back to Projects</a>
+      <span class="text-xs text-slate-500">Shariar Imtiaz</span>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-6 py-10">
+    <h1 id="title" class="text-3xl font-extrabold tracking-tight"></h1>
+    <p id="summary" class="mt-3 text-slate-700"></p>
+
+    <img id="cover" alt="" class="mt-6 w-full rounded-2xl shadow-sm hidden"/>
+
+    <div id="content" class="mt-8 space-y-6"></div>
+  </main>
+
+  <footer class="py-10 text-center text-xs text-slate-500">© <span id="year"></span> Shariar Imtiaz</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function qs(key){
+      const p = new URLSearchParams(location.search);
+      return p.get(key);
+    }
+
+    function el(tag, classes='', html=''){
+      const e = document.createElement(tag);
+      if (classes) e.className = classes;
+      if (html) e.innerHTML = html;
+      return e;
+    }
+
+    function renderBlock(block){
+      const wrap = document.createDocumentFragment();
+      switch(block.type){
+        case 'h2': {
+          wrap.appendChild(el('h2','text-xl font-bold text-slate-900 mt-8', block.text || ''));
+          break;
+        }
+        case 'p': {
+          wrap.appendChild(el('p','text-slate-800 leading-7', block.text || ''));
+          break;
+        }
+        case 'img': {
+          const img = document.createElement('img');
+          img.src = block.src;
+          img.alt = block.alt || '';
+          img.className = 'w-full rounded-2xl border border-slate-200 shadow-sm';
+          wrap.appendChild(img);
+          if (block.caption){
+            wrap.appendChild(el('p','text-xs text-slate-500 mt-1', block.caption));
+          }
+          break;
+        }
+        case 'list': {
+          const ul = el('ul','list-disc pl-6 space-y-1 text-slate-800');
+          (block.items || []).forEach(it => ul.appendChild(el('li','', it)));
+          wrap.appendChild(ul);
+          break;
+        }
+        case 'code': {
+          const pre = el('pre','bg-slate-900/90 text-slate-50');
+          const code = document.createElement('code');
+          code.className = `language-${block.language || 'plaintext'}`;
+          code.textContent = block.code || '';
+          pre.appendChild(code);
+          wrap.appendChild(pre);
+          // highlight after code is in DOM
+          requestAnimationFrame(() => {
+            document.querySelectorAll('pre code').forEach(hljs.highlightElement);
+          });
+          break;
+        }
+        default: {
+          // fallback to paragraph
+          if (block.text) wrap.appendChild(el('p','text-slate-800', block.text));
+        }
+      }
+      return wrap;
+    }
+
+    async function init(){
+      const slug = qs('slug');
+      if (!slug){
+        document.getElementById('title').textContent = 'Project not specified';
+        document.getElementById('summary').textContent = 'Use ?slug=your-project-slug in the URL.';
+        return;
+      }
+
+      let data;
+      try{
+        const res = await fetch('./data.json', { cache: 'no-store' });
+        data = res.ok ? await res.json() : { projects: [] };
+      }catch(e){
+        data = { projects: [] };
+      }
+
+      const proj = (data.projects || []).find(p => (p.slug || '').toLowerCase() === slug.toLowerCase());
+      if (!proj){
+        document.getElementById('title').textContent = 'Project not found';
+        document.getElementById('summary').textContent = `No project with slug "${slug}" in data.json`;
+        return;
+      }
+
+      // Title / summary
+      document.getElementById('title').textContent = proj.title || 'Untitled Project';
+      document.getElementById('summary').textContent = proj.summary || '';
+
+      // Cover image
+      const cover = document.getElementById('cover');
+      if (proj.cover){
+        cover.src = proj.cover;
+        cover.alt = proj.title || 'Project cover';
+        cover.classList.remove('hidden');
+      }
+
+      // Content sections
+      const content = document.getElementById('content');
+      content.innerHTML = '';
+      (proj.sections || []).forEach(block => content.appendChild(renderBlock(block)));
+    }
+
+    init();
+  </script>
+</body>
+</html>
