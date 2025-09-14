@@ -208,7 +208,7 @@
   </script>
 
   <script>
-    // Renders project cards from data.json (expects slug/title/summary).
+    // Renders project cards (unchanged styles)
     function renderProjects(items){
       const grid = document.getElementById('projects-grid');
       grid.innerHTML = '';
@@ -217,57 +217,51 @@
         card.className = 'rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md cursor-pointer';
         card.innerHTML = `
           <h3 class="font-semibold text-slate-900">${p.title}</h3>
-          <p class="mt-2 text-sm text-slate-700">${p.summary||''}</p>
+          <p class="mt-2 text-sm text-slate-700">${p.summary || ''}</p>
         `;
-        card.addEventListener('click', () => openProjectModalBySlug(p));
+        // NEW: silent open—only if markdown exists
+        card.addEventListener('click', () => handleProjectClick(p));
         grid.appendChild(card);
       });
     }
 
-    // Show/hide helpers
-    function showModal(){
-      const m = document.getElementById('project-modal');
-      m.classList.remove('hidden'); m.classList.add('flex');
-    }
-    function hideModal(){
-      const m = document.getElementById('project-modal');
-      m.classList.add('hidden'); m.classList.remove('flex');
-    }
-    // Close wiring (✖, backdrop, Esc)
+    // Show/hide helpers (unchanged)
+    function showModal(){ const m=document.getElementById('project-modal'); m.classList.remove('hidden'); m.classList.add('flex'); }
+    function hideModal(){ const m=document.getElementById('project-modal'); m.classList.add('hidden'); m.classList.remove('flex'); }
     document.addEventListener('DOMContentLoaded', ()=>{
-      const modal = document.getElementById('project-modal');
-      const btn   = document.getElementById('close-modal');
-      if (btn) btn.addEventListener('click', hideModal);
-      if (modal) modal.addEventListener('click', (e)=>{ if(e.target===modal) hideModal(); });
-      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideModal(); });
+      const modal=document.getElementById('project-modal');
+      const btn=document.getElementById('close-modal');
+      if(btn) btn.addEventListener('click', hideModal);
+      if(modal) modal.addEventListener('click', e=>{ if(e.target===modal) hideModal(); });
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') hideModal(); });
     });
 
-    // Fetch the .md by slug and render into the modal
-    async function openProjectModalBySlug(project){
+    // NEW: Only open modal if the MD file is found and loaded
+    async function handleProjectClick(project){
       const { slug, title, summary } = project;
+      const url = `./projects/${encodeURIComponent(slug)}.md`;
+
+      let res;
+      try {
+        res = await fetch(url, { cache: 'no-store' });
+      } catch {
+        // network error — do nothing (silent)
+        return;
+      }
+      if (!res.ok) {
+        // 404 or other error — do nothing (silent)
+        return;
+      }
+
+      const md = await res.text();
+      // populate and show modal
       document.getElementById('modal-title').textContent = title || '';
       document.getElementById('modal-summary').textContent = summary || '';
       const contentEl = document.getElementById('modal-content');
-      contentEl.innerHTML = '<p class="text-slate-500">Loading…</p>';
-
-      try{
-        const res = await fetch(`./projects/${encodeURIComponent(slug)}.md`, { cache: 'no-store' });
-        if(!res.ok) throw new Error(`Failed to load projects/${slug}.md`);
-        const md = await res.text();
-
-        // Render Markdown then syntax-highlight fenced code blocks
-        contentEl.innerHTML = marked.parse(md);
-        requestAnimationFrame(()=>{
-          contentEl.querySelectorAll('pre code').forEach(hljs.highlightElement);
-        });
-      }catch(err){
-        contentEl.innerHTML = `
-          <div class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
-            <p class="font-semibold">Could not load the project details.</p>
-            <p class="text-sm mt-1">Expected file: <code>projects/${slug}.md</code></p>
-          </div>`;
-        console.error(err);
-      }
+      contentEl.innerHTML = marked.parse(md);
+      requestAnimationFrame(()=> {
+        contentEl.querySelectorAll('pre code').forEach(hljs.highlightElement);
+      });
       showModal();
     }
   </script>

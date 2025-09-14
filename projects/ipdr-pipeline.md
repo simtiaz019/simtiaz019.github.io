@@ -14,3 +14,7 @@ df = (spark.read.format("parquet").load(input_path)
       .dropDuplicates(["session_id"])
       .repartition(200))
 df.write.mode("append").format("delta").save(output_path)
+
+
+## Highlights 
+this is the conclution. 
