@@ -2,7 +2,7 @@
 
 This pipeline ingests raw IPDR data, normalizes it, and publishes curated data to downstream consumers.
 
-![System Diagram](asset/projects/ipdr/diagram.png)
+![System Diagram](asset/projects/ipdr-pipeline/diagram.png)
 
 ## Highlights
 - 6TB+ daily (40B+ records)
