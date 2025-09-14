@@ -10,6 +10,7 @@
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
+  <!-- Header -->
   <header class="bg-indigo-600 text-white">
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -20,10 +21,29 @@
   </header>
 
   <main class="max-w-6xl mx-auto px-6 py-10">
-    <div class="mb-6">
-      <input id="search" type="text" placeholder="Search blogs..."
-             class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+    <!-- Filters -->
+    <div class="grid md:grid-cols-[1fr,auto,auto] gap-3 items-end mb-6">
+      <div>
+        <label class="block text-xs text-slate-600 mb-1">Search (title or content)</label>
+        <input id="q" type="text" placeholder="e.g., vector search, Oracle 23ai..."
+               class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+      </div>
+      <div>
+        <label class="block text-xs text-slate-600 mb-1">From (date)</label>
+        <input id="from" type="date"
+               class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+      </div>
+      <div>
+        <label class="block text-xs text-slate-600 mb-1">To (date)</label>
+        <input id="to" type="date"
+               class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+      </div>
     </div>
+
+    <!-- Results summary -->
+    <p id="count" class="text-xs text-slate-500 mb-3"></p>
+
+    <!-- Blog list -->
     <div id="blog-list" class="space-y-6"></div>
   </main>
 
@@ -34,23 +54,11 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    let blogs = [];
+    // In-memory index
+    let posts = []; // [{file, dateStr, date, title, content}]
+    let filtered = [];
 
-    async function loadBlogs(){
-      try {
-        const res = await fetch('./blogs/index.json', { cache: 'no-store' });
-        blogs = res.ok ? await res.json() : [];
-      } catch(e){ blogs = []; }
-
-      // attach date from filename
-      blogs = blogs.map(b => {
-        const m = b.file.match(/(\d{4}-\d{2}-\d{2})/);
-        return { ...b, date: m ? m[1] : 'Unknown' };
-      });
-
-      renderBlogList(blogs);
-    }
-
+    // Utility: title from filename if no H1
     function slugToTitle(filename){
       return filename
         .replace(/^\d{4}-\d{2}-\d{2}-/,'')
@@ -58,32 +66,106 @@
         .replace(/-/g,' ');
     }
 
-    function renderBlogList(items){
-      const list = document.getElementById('blog-list');
-      list.innerHTML = '';
-      items
-        .sort((a,b)=> b.file.localeCompare(a.file)) // newest first (by name prefix)
-        .forEach(b=>{
-          const card = document.createElement('article');
-          card.className = "rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md";
-          card.innerHTML = `
-            <a href="blog.html?file=${encodeURIComponent(b.file)}" class="block">
-              <h2 class="text-lg font-bold text-indigo-700">${slugToTitle(b.file)}</h2>
-              <p class="text-xs text-slate-500">${new Date(b.date).toDateString()}</p>
-            </a>
-          `;
-          list.appendChild(card);
-        });
+    // Fetch helper
+    async function fetchText(url){
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`${res.status} ${url}`);
+      return await res.text();
     }
 
-    // search by title
-    document.getElementById('search').addEventListener('input', (e)=>{
-      const q = e.target.value.toLowerCase();
-      const filtered = blogs.filter(b => slugToTitle(b.file).toLowerCase().includes(q));
-      renderBlogList(filtered);
+    // Build index: load manifest, then fetch each md for content + title
+    async function buildIndex(){
+      let manifest = [];
+      try {
+        manifest = JSON.parse(await fetchText('./blogs/index.json'));
+      } catch(e) {
+        console.error('Failed to load blogs/index.json', e);
+        manifest = [];
+      }
+
+      // Sort newest first by filename prefix
+      manifest.sort((a,b)=> b.file.localeCompare(a.file));
+
+      posts = [];
+      for (const item of manifest) {
+        const file = item.file;
+        // Extract date from filename
+        const m = file.match(/(\d{4}-\d{2}-\d{2})/);
+        const dateStr = m ? m[1] : '1970-01-01';
+        const date = new Date(dateStr);
+
+        // Load markdown to index content & get H1
+        let md = '';
+        try {
+          md = await fetchText('./blogs/' + file);
+        } catch(e) {
+          console.warn('Failed to fetch post md:', file, e);
+          md = '';
+        }
+        const h1 = md.match(/^# (.+)/m);
+        const title = (h1 ? h1[1] : slugToTitle(file)).trim();
+
+        // Simple content text for search (lowercased)
+        const content = md.toLowerCase();
+
+        posts.push({ file, dateStr, date, title, content });
+      }
+      filtered = posts.slice();
+      render();
+    }
+
+    // Apply filters from UI
+    function applyFilters(){
+      const q = document.getElementById('q').value.trim().toLowerCase();
+      const from = document.getElementById('from').value; // YYYY-MM-DD or ''
+      const to   = document.getElementById('to').value;   // YYYY-MM-DD or ''
+
+      filtered = posts.filter(p => {
+        // Text match: title OR content
+        const textOk = !q || p.title.toLowerCase().includes(q) || p.content.includes(q);
+
+        // Date range match
+        let dateOk = true;
+        if (from) dateOk = dateOk && (p.date >= new Date(from + 'T00:00:00'));
+        if (to)   dateOk = dateOk && (p.date <= new Date(to   + 'T23:59:59'));
+
+        return textOk && dateOk;
+      });
+
+      render();
+    }
+
+    // Render list + count
+    function render(){
+      const list = document.getElementById('blog-list');
+      const count = document.getElementById('count');
+      list.innerHTML = '';
+
+      // Sort newest first
+      const items = filtered.slice().sort((a,b)=> b.date - a.date);
+
+      count.textContent = `${items.length} post${items.length===1?'':'s'} found`;
+
+      items.forEach(p=>{
+        const card = document.createElement('article');
+        card.className = "rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md";
+        card.innerHTML = `
+          <a href="blog.html?file=${encodeURIComponent(p.file)}" class="block">
+            <h2 class="text-lg font-bold text-indigo-700">${p.title}</h2>
+            <p class="text-xs text-slate-500">${new Date(p.dateStr).toDateString()}</p>
+          </a>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    // Wire up filters
+    ['q','from','to'].forEach(id=>{
+      document.getElementById(id).addEventListener('input', applyFilters);
     });
 
-    loadBlogs();
+    // Init
+    buildIndex();
   </script>
 </body>
 </html>
