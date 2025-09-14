@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog Post — Shariar Imtiaz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .prose { max-width: 65ch; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <header class="bg-indigo-600 text-white">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="bg-white text-indigo-600 px-3 py-1 rounded-lg text-sm font-semibold shadow hover:bg-slate-100">← Home</a>
+        <a href="blogs.html" class="bg-white text-indigo-600 px-3 py-1 rounded-lg text-sm font-semibold shadow hover:bg-slate-100">← Blogs</a>
+      </div>
+      <h1 class="text-xl font-bold">Blog</h1>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 py-10">
+    <div class="mb-8">
+      <h1 id="post-title" class="text-3xl font-extrabold text-slate-900"></h1>
+      <p id="post-date" class="text-sm text-slate-500"></p>
+    </div>
+
+    <article id="blog" class="prose prose-slate bg-white rounded-xl p-6 shadow"></article>
+
+    <div id="nav-links" class="mt-10 flex justify-between text-sm font-semibold text-indigo-600"></div>
+  </main>
+
+  <footer class="py-10 text-center text-xs text-slate-500">
+    © <span id="year"></span> Shariar Imtiaz
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const qs = (k) => new URLSearchParams(location.search).get(k);
+
+    function slugToTitle(filename){
+      return filename
+        .replace(/^\d{4}-\d{2}-\d{2}-/,'')
+        .replace(/\.md$/,'')
+        .replace(/-/g,' ');
+    }
+
+    let manifest = [];
+
+    async function loadManifest(){
+      try{
+        const res = await fetch('./blogs/index.json', { cache: 'no-store' });
+        manifest = res.ok ? await res.json() : [];
+      }catch(e){ manifest = []; }
+      // newest first by filename prefix
+      manifest.sort((a,b)=> b.file.localeCompare(a.file));
+    }
+
+    async function loadPost(file){
+      // fetch markdown
+      const res = await fetch('./blogs/'+file, { cache: 'no-store' });
+      if(!res.ok){
+        document.getElementById('blog').innerHTML = `
+          <div class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+            <p class="font-semibold">Could not load the blog file.</p>
+            <p class="text-sm mt-1">Tried: <code>blogs/${file}</code></p>
+          </div>`;
+        return;
+      }
+      const md = await res.text();
+
+      // title (from first #), date (from filename)
+      const headingMatch = md.match(/^# (.+)/m);
+      const title = headingMatch ? headingMatch[1] : slugToTitle(file);
+      document.getElementById('post-title').textContent = title;
+
+      const dateMatch = file.match(/(\d{4}-\d{2}-\d{2})/);
+      const date = dateMatch ? new Date(dateMatch[1]) : null;
+      document.getElementById('post-date').textContent = date ? date.toDateString() : '';
+
+      // render markdown
+      document.getElementById('blog').innerHTML = marked.parse(md);
+
+      // nav (next/prev)
+      const idx = manifest.findIndex(b => b.file === file);
+      const nav = document.getElementById('nav-links');
+      nav.innerHTML = '';
+
+      // next (newer)
+      if(idx !== -1 && idx < manifest.length - 1){
+        const next = manifest[idx + 1];
+        const a = document.createElement('a');
+        a.href = 'blog.html?file='+encodeURIComponent(next.file);
+        a.innerHTML = '← ' + slugToTitle(next.file);
+        nav.appendChild(a);
+      }else{
+        nav.appendChild(document.createElement('span'));
+      }
+
+      // prev (older)
+      if(idx > 0){
+        const prev = manifest[idx - 1];
+        const a = document.createElement('a');
+        a.href = 'blog.html?file='+encodeURIComponent(prev.file);
+        a.innerHTML = slugToTitle(prev.file) + ' →';
+        nav.appendChild(a);
+      }
+    }
+
+    (async function(){
+      const file = qs('file');
+      if(!file){
+        document.getElementById('blog').innerHTML = "<p class='text-red-600'>No blog specified. Use <code>?file=YYYY-MM-DD-slug.md</code></p>";
+        return;
+      }
+      await loadManifest();
+      await loadPost(file);
+    })();
+  </script>
+</body>
+</html>
