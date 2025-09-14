@@ -73,40 +73,31 @@
   "projects": [
     {
       "slug": "ipdr-pipeline",
-      "title": "IPDR Data Pipeline — Banglalink",
-      "summary": "Spark-based framework processing 6TB+ daily (40B+ records) with Airflow scheduling, real-time alerts, and backlog recovery.",
-      "cover": "asset/projects/ipdr/cover.jpg",
-      "sections": [
-        { "type": "p", "text": "This pipeline ingests raw IPDR data, normalizes it, and publishes curated data to downstream consumers." },
-        { "type": "img", "src": "asset/projects/ipdr/diagram.png", "alt": "System diagram" },
-        { "type": "h2", "text": "Sample Spark Code" },
-        { "type": "code", "language": "python", "code": "df = spark.read.format('parquet').load(input_path)\ndf = df.dropDuplicates(['session_id']).repartition(200)\ndf.write.mode('append').format('delta').save(output_path)" },
-        { "type": "p", "text": "We used Delta format to support ACID and time travel for debugging late-arriving data." }
-      ]
+      "title": "IPDR Data Processing Framework — Banglalink",
+      "summary": "Spark-based framework processing 6TB+ daily (40B+ records) with Airflow scheduling, real-time alerts, and backlog recovery."
     },
     {
       "slug": "dmp-triggers",
       "title": "DMP Triggers Framework — Banglalink",
-      "summary": "Java Spring Boot + Kafka/Ignite system handling 400B+ daily events and automating notifications, reporting, and scaling.",
-      "cover": "asset/projects/dmp/cover.jpg",
-      "sections": [
-        { "type": "p", "text": "Event-driven triggers with SLA guarantees and backpressure handling using Kafka consumer groups." },
-        { "type": "code", "language": "java", "code": "@KafkaListener(topics = \"events\")\npublic void handle(Event e) {\n  if (ruleEngine.matches(e)) dispatcher.dispatch(e);\n}" }
-      ]
+      "summary": "Java Spring Boot + Kafka/Ignite system handling 400B+ daily events and automating notifications, reporting, and scaling."
     },
     {
+      "slug": "clevertap",
       "title": "Clevertap Data Processing — Raena",
       "summary": "PySpark + EMR pipeline on S3 data lake; Airflow automation for near real-time user journey insights."
     },
     {
+      "slug": "td-backup",
       "title": "Teradata Backup & Offloading — Banglalink",
       "summary": "Python + Airflow solution for full/incremental backups; 40% storage reduction and low-cost archival in CDP."
     },
     {
+      "slug": "credit-scoring",
       "title": "Credit Scoring Assistant for Banks — Oracle",
       "summary": "Designed AI-powered credit scoring system using Oracle DB 23ai vector search + TinyBERT embeddings"
     },
     {
+      "slug": "telecom-recommendation",
       "title": "Telecom Pack Recommendation Engine — Oracle",
       "summary": "Built telecom recommendation engine with OML in Autonomous DB & OCI Data Science pipelines"
     }
