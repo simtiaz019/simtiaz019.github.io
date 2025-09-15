@@ -1,17 +1,13 @@
 {
   "cv_url": "asset/ShariarImtiazBD.pdf",
   "about": {
-    "summary": "Seasoned data professional with 11+ years in scalable data & AI platforms...",
+    "summary": "I am Shariar Imtiaz, a Data Engineer & Data Architect with 11+ years of experience designing and delivering big data platforms, cloud-native solutions, and AI-ready infrastructures** across telecom, e-commerce, and enterprise domains.I specialize in building secure, cost-optimized data platforms. My expertise includes Oracle Database 23ai (Vector Search, Select AI, GenAI integration), OCI, AWS, Azure, Kafka, Spark, and Airflow, enabling scalable, high-performance data processing and RAG-ready enterprise systems.",
     "highlights": [
-      "Built telco-scale streaming analytics on OCI",
-      "Designed RAG pipelines with Oracle Database 23ai Vector Search",
-      "Delivered Oracle APEX data apps with SSO & RBAC"
-    ],
-    "facts": {
-      "Current Role": "Data Architect",
-      "Location": "Dhaka, Bangladesh",
-      "Interests": "Vector Search, RAG, APEX"
-    }
+      "Engineered real-time data pipelines processing 40B+ records/day, generating millions in revenue uplift.",
+      "Built trigger frameworks processing 400B+ events daily with Kafka and Ignite.",
+      "Migrated analytics workloads to Redshift and designed Teradata offloading solutions, reducing costs by 40%.",
+      "Delivered 20+ BI dashboards and intelligent analytics solutions driving data-driven decision-making."
+    ]
   },
   "hero": {
     "title": "Shariar Imtiaz",
