@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://simtiaz019.github.io/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://simtiaz019.github.io/blogs.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <!-- add each project URL -->
+  <!-- <url><loc>https://simtiaz019.github.io/projects/{slug}/</loc><changefreq>monthly</changefreq></url> -->
+</urlset>

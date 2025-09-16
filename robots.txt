@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://simtiaz019.github.io/sitemap.xml

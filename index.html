@@ -4,6 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shariar Imtiaz — Portfolio</title>
+    <!-- SEO basics -->
+  <meta name="description" content="Shariar Imtiaz — Data Engineer & Data Architect (11+ years). High-scale data platforms, cloud, AI-ready infrastructure across telecom, e-commerce & cloud providers.">
+  <link rel="canonical" href="https://simtiaz019.github.io/">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Shariar Imtiaz — Portfolio">
+  <meta property="og:title" content="Shariar Imtiaz — Data Engineer & Architect">
+  <meta property="og:description" content="11+ years building high-scale data platforms, cloud solutions, and AI-ready infrastructure.">
+  <meta property="og:url" content="https://simtiaz019.github.io/">
+  <meta property="og:image" content="https://simtiaz019.github.io/asset/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shariar Imtiaz — Data Engineer & Architect">
+  <meta name="twitter:description" content="11+ years building high-scale data platforms, cloud solutions, and AI-ready infrastructure.">
+  <meta name="twitter:image" content="https://simtiaz019.github.io/asset/og-image.jpg">
+
+  <!-- Icons / PWA hints -->
+  <link rel="icon" href="/asset/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/asset/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#312e81">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,11 +54,43 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Shariar Imtiaz",
+    "image": "https://simtiaz019.github.io/asset/profile.jpg",
+    "jobTitle": "Data Engineer, Data Architect",
+    "url": "https://simtiaz019.github.io/",
+    "email": "mailto:simtiaz019@gmail.com",
+    "telephone": "+8801962401593",
+    "address": {"@type":"PostalAddress","addressLocality":"Dhaka","addressCountry":"BD"},
+    "sameAs": [
+      "https://www.linkedin.com/in/shariar-imtiaz/",
+      "https://github.com/simtiaz019"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"Shariar Imtiaz — Portfolio",
+    "url":"https://simtiaz019.github.io/",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://simtiaz019.github.io/blogs.html?q={search_term_string}",
+      "query-input":"required name=search_term_string"
+    }
+  }
+  </script>
+
 </head>
 <body class="bg-slate-50 text-slate-900">
   <!-- Avatar -->
   <button id="avatar" aria-label="Site guide" class="fixed right-4 bottom-4 z-[60] rounded-full shadow-xl border-2 border-white/80 overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-400" style="width:clamp(56px,8vw,84px);height:clamp(56px,8vw,84px);">
-    <img src="asset/avatar.png" alt="Shariar avatar" class="w-full h-full object-cover" />
+    <img src="asset/avatar.png" alt="Shariar avatar" width="84" height="84"
+     loading="lazy" decoding="async" class="w-full h-full object-cover" />
   </button>
 
   <div id="coach-bubble" class="bubble">
@@ -49,7 +108,12 @@
     <div class="mx-auto max-w-6xl px-6 pt-28 pb-16">
       <div class="flex flex-col md:flex-row items-center gap-10">
         <div class="relative w-44 h-44 md:w-56 md:h-56 rounded-full ring-4 ring-white/30 shadow-2xl overflow-hidden">
-          <img src="asset/profile.jpg" alt="Shariar Imtiaz" class="w-full h-full object-cover"/>
+          <img src="asset/profile.jpg"
+            alt="Shariar Imtiaz"
+            width="224" height="224"
+            loading="eager" fetchpriority="high" decoding="async"
+            class="w-full h-full object-cover"/>
+
         </div>
         <div class="flex-1 text-white">
           <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">Shariar Imtiaz</h1>
