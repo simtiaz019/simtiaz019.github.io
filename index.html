@@ -206,6 +206,43 @@
   </script>
 
   <script>
+    marked.setOptions({
+      breaks: true,          // respect line breaks
+      gfm: true,             // GitHub Flavored Markdown
+      highlight: function (code, lang) {
+        if (hljs.getLanguage(lang)) {
+          return hljs.highlight(code, { language: lang }).value;
+        }
+        return hljs.highlightAuto(code).value;
+      }
+    });
+
+    async function handleProjectClick(project){
+      const { slug, title, summary } = project;
+      const url = `./projects/${encodeURIComponent(slug)}.md`;
+
+      let res;
+      try { res = await fetch(url, { cache: 'no-store' }); }
+      catch { return; }
+      if (!res.ok) return;
+
+      const md = await res.text();
+
+      document.getElementById('modal-title').textContent = title || '';
+      document.getElementById('modal-summary').textContent = summary || '';
+
+      const contentEl = document.getElementById('modal-content');
+      contentEl.innerHTML = marked.parse(md);
+
+      // syntax highlighting for code blocks
+      contentEl.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+
+      showModal();
+    }
+  </script>
+
+
+  <script>
     // Renders project cards (unchanged styles)
     function renderProjects(items){
       const grid = document.getElementById('projects-grid');
