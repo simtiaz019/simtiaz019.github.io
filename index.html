@@ -27,9 +27,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/typography@0.5.10/dist/typography.min.js"></script>
-  <script>tailwind.config = { plugins: [window.tailwindcssTypography] };</script>
-
 </head>
 <body class="bg-slate-50 text-slate-900">
   <!-- Avatar -->
@@ -209,21 +206,6 @@
   </script>
 
   <script>
-    marked.setOptions({
-      breaks: true,
-      gfm: true,
-      highlight: function (code, lang) {
-        if (hljs.getLanguage(lang)) {
-          return hljs.highlight(code, { language: lang }).value;
-        }
-        return hljs.highlightAuto(code).value;
-      }
-    });
-  </script>
-
-
-
-  <script>
     // Renders project cards (unchanged styles)
     function renderProjects(items){
       const grid = document.getElementById('projects-grid');
@@ -338,23 +320,13 @@
 
   <!-- Project Modal -->
   <div id="project-modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center">
-    <div id="project-modal-card"
-        class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative">
-
-      <!-- Sticky header -->
-      <div class="sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-slate-200 p-6">
-        <button id="close-modal"
-                class="absolute top-4 right-4 text-2xl text-slate-500 hover:text-slate-700"
-                aria-label="Close">&times;</button>
-        <h2 id="modal-title" class="text-2xl font-bold text-slate-900 pr-10"></h2>
-        <p id="modal-summary" class="mt-1 text-slate-600 pr-10"></p>
-      </div>
-
-      <!-- Markdown body -->
-      <article id="modal-content" class="p-6 prose prose-slate max-w-none"></article>
+    <div id="project-modal-card" class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <button id="close-modal" class="absolute top-4 right-4 text-2xl text-slate-500 hover:text-slate-700" aria-label="Close">&times;</button>
+      <h2 id="modal-title" class="text-2xl font-bold text-slate-900"></h2>
+      <p id="modal-summary" class="mt-2 text-slate-600"></p>
+      <article id="modal-content" class="mt-6 prose prose-slate max-w-none"></article>
     </div>
   </div>
-
 
 
 
