@@ -1,3 +1,8 @@
 [
-  { "file": "2025-09-13-welcome.md" }
+  {
+    "file": "2025-09-13-welcome.md",
+    "title": "Welcome to My Blog",
+    "date": "2025-09-13",
+    "summary": "Kick-off note on data engineering, Oracle 23ai, and RAG pipeline insights."
+  }
 ]

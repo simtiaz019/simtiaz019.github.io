@@ -55,8 +55,9 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // In-memory index
-    let posts = []; // [{file, dateStr, date, title, content}]
+    let posts = []; // {file, dateStr, date, title, summary, ...}
     let filtered = [];
+    let searchVersion = 0;
 
     // Utility: title from filename if no H1
     function slugToTitle(filename){
@@ -66,18 +67,28 @@
         .replace(/-/g,' ');
     }
 
-    // Fetch helper
+    // Fetch helpers
     async function fetchText(url){
       const res = await fetch(url);
       if (!res.ok) throw new Error(`${res.status} ${url}`);
       return await res.text();
     }
 
-    // Build index: load manifest, then fetch each md for content + title
+    async function fetchJSON(url){
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`${res.status} ${url}`);
+      return await res.json();
+    }
+
+    function normaliseSummary(text=''){
+      return text.replace(/\s+/g,' ').trim();
+    }
+
+    // Build index from manifest (no markdown fetch on load)
     async function buildIndex(){
       let manifest = [];
       try {
-        manifest = JSON.parse(await fetchText('./blogs/index.json'));
+        manifest = await fetchJSON('./blogs/index.json');
       } catch(e) {
         console.error('Failed to load blogs/index.json', e);
         manifest = [];
@@ -86,50 +97,115 @@
       // Sort newest first by filename prefix
       manifest.sort((a,b)=> b.file.localeCompare(a.file));
 
-      const loaded = await Promise.all(manifest.map(async (item) => {
+      posts = manifest.map(item => {
         const file = item.file;
-        const m = file.match(/(\d{4}-\d{2}-\d{2})/);
-        const dateStr = m ? m[1] : '1970-01-01';
+        const fromName = file && file.match(/(\d{4}-\d{2}-\d{2})/);
+        const manifestDate = normaliseSummary(item.date || '');
+        const dateStr = manifestDate || (fromName ? fromName[1] : '1970-01-01');
         const date = new Date(dateStr);
+        const title = normaliseSummary(item.title || slugToTitle(file));
+        const summary = normaliseSummary(item.summary || '');
 
-        let md = '';
-        try {
-          md = await fetchText('./blogs/' + file);
-        } catch(e) {
-          console.warn('Failed to fetch post md:', file, e);
-          return null;
-        }
+        return {
+          file,
+          dateStr,
+          date,
+          title,
+          titleLower: title.toLowerCase(),
+          summary,
+          summaryLower: summary.toLowerCase(),
+          content: '',
+          contentLoaded: false
+        };
+      });
 
-        const h1 = md.match(/^# (.+)/m);
-        const title = (h1 ? h1[1] : slugToTitle(file)).trim();
-        const content = md.toLowerCase();
-
-        return { file, dateStr, date, title, content };
-      }));
-
-      posts = loaded.filter(Boolean);
       filtered = posts.slice();
       render();
     }
 
+    async function ensureContent(post){
+      if(post.contentLoaded){
+        return post.content;
+      }
+
+      let md = '';
+      try {
+        md = await fetchText('./blogs/' + post.file);
+      } catch(e) {
+        console.warn('Failed to fetch post md:', post.file, e);
+        post.contentLoaded = true;
+        post.content = '';
+        return post.content;
+      }
+
+      post.content = md.toLowerCase();
+      post.contentLoaded = true;
+
+      if(!post.summary){
+        const plain = md
+          .replace(/```[\s\S]*?```/g, ' ')
+          .replace(/`[^`]*`/g, ' ')
+          .replace(/\[(.*?)\]\([^)]*\)/g, '$1')
+          .replace(/^#.+$/gm, ' ')
+          .replace(/[*_>#~-]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        const truncated = plain.length > 180 ? plain.slice(0, 177).trimEnd() + '…' : plain;
+        post.summary = truncated;
+        post.summaryLower = post.summary.toLowerCase();
+      }
+
+      return post.content;
+    }
+
+    function withinRange(post, fromDate, toDate){
+      if(fromDate && post.date < fromDate) return false;
+      if(toDate && post.date > toDate) return false;
+      return true;
+    }
+
     // Apply filters from UI
-    function applyFilters(){
+    async function applyFilters(){
+      const version = ++searchVersion;
       const q = document.getElementById('q').value.trim().toLowerCase();
-      const from = document.getElementById('from').value; // YYYY-MM-DD or ''
-      const to   = document.getElementById('to').value;   // YYYY-MM-DD or ''
+      const fromVal = document.getElementById('from').value;
+      const toVal = document.getElementById('to').value;
+      const fromDate = fromVal ? new Date(fromVal + 'T00:00:00') : null;
+      const toDate = toVal ? new Date(toVal + 'T23:59:59') : null;
 
-      filtered = posts.filter(p => {
-        // Text match: title OR content
-        const textOk = !q || p.title.toLowerCase().includes(q) || p.content.includes(q);
+      const results = [];
+      const needsContent = [];
 
-        // Date range match
-        let dateOk = true;
-        if (from) dateOk = dateOk && (p.date >= new Date(from + 'T00:00:00'));
-        if (to)   dateOk = dateOk && (p.date <= new Date(to   + 'T23:59:59'));
+      posts.forEach(post => {
+        if(!withinRange(post, fromDate, toDate)){
+          return;
+        }
 
-        return textOk && dateOk;
+        if(!q){
+          results.push(post);
+          return;
+        }
+
+        if(post.titleLower.includes(q) || (post.summaryLower && post.summaryLower.includes(q))){
+          results.push(post);
+        }else{
+          needsContent.push(post);
+        }
       });
 
+      if(q && needsContent.length){
+        await Promise.all(needsContent.map(async post => {
+          const content = await ensureContent(post);
+          if(version !== searchVersion) return;
+          if(content && content.includes(q) && withinRange(post, fromDate, toDate)){
+            results.push(post);
+          }
+        }));
+      }
+
+      if(version !== searchVersion) return;
+
+      filtered = results;
       render();
     }
 
@@ -147,23 +223,54 @@
       items.forEach(p=>{
         const card = document.createElement('article');
         card.className = "rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md";
-        card.innerHTML = `
-          <a href="blog.html?file=${encodeURIComponent(p.file)}" class="block">
-            <h2 class="text-lg font-bold text-indigo-700">${p.title}</h2>
-            <p class="text-xs text-slate-500">${new Date(p.dateStr).toDateString()}</p>
-          </a>
-        `;
+
+        const link = document.createElement('a');
+        link.href = `blog.html?file=${encodeURIComponent(p.file)}`;
+        link.className = 'block';
+
+        const title = document.createElement('h2');
+        title.className = 'text-lg font-bold text-indigo-700';
+        title.textContent = p.title;
+        link.appendChild(title);
+
+        const meta = document.createElement('p');
+        meta.className = 'text-xs text-slate-500';
+        meta.textContent = new Date(p.dateStr).toDateString();
+        link.appendChild(meta);
+
+        if(p.summary){
+          const summary = document.createElement('p');
+          summary.className = 'mt-3 text-sm text-slate-600';
+          summary.textContent = p.summary;
+          link.appendChild(summary);
+        }
+
+        card.appendChild(link);
         list.appendChild(card);
       });
     }
 
     // Wire up filters
-    ['q','from','to'].forEach(id=>{
-      document.getElementById(id).addEventListener('input', applyFilters);
+    const qInput = document.getElementById('q');
+    const fromInput = document.getElementById('from');
+    const toInput = document.getElementById('to');
+
+    const triggerFilters = () => { applyFilters().catch(err => console.error(err)); };
+
+    ['input','change'].forEach(ev => {
+      qInput.addEventListener(ev, triggerFilters);
+      fromInput.addEventListener(ev, triggerFilters);
+      toInput.addEventListener(ev, triggerFilters);
     });
 
     // Init
-    buildIndex();
+    buildIndex().then(() => {
+      if(qInput.value || fromInput.value || toInput.value){
+        triggerFilters();
+      }
+    }).catch(err => {
+      console.error('Failed to build blog index', err);
+    });
   </script>
 </body>
 </html>
