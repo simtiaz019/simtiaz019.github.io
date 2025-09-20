@@ -4,11 +4,22 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Blog Post — Shariar Imtiaz</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
   <style>
     body { font-family: 'Inter', system-ui, sans-serif; }
-    .prose { max-width: 65ch; }
+    #blog pre {
+      overflow-x: auto;
+    }
+    #blog code {
+      font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    #blog code::before,
+    #blog code::after,
+    #blog pre code::before,
+    #blog pre code::after {
+      content: none !important;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
@@ -22,13 +33,13 @@
     </div>
   </header>
 
-  <main class="max-w-3xl mx-auto px-6 py-10">
+  <main class="max-w-5xl w-full mx-auto px-6 py-10">
     <div class="mb-8">
       <h1 id="post-title" class="text-3xl font-extrabold text-slate-900"></h1>
       <p id="post-date" class="text-sm text-slate-500"></p>
     </div>
 
-    <article id="blog" class="prose prose-slate bg-white rounded-xl p-6 shadow"></article>
+    <article id="blog" class="prose prose-slate lg:prose-lg max-w-none bg-white rounded-xl p-6 shadow"></article>
 
     <div id="nav-links" class="mt-10 flex justify-between text-sm font-semibold text-indigo-600"></div>
   </main>
