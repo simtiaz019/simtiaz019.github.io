@@ -1,8 +1,8 @@
 [
   {
-    "file": "2025-09-13-welcome.md",
-    "title": "Welcome to My Blog",
-    "date": "2025-09-13",
-    "summary": "Kick-off note on data engineering, Oracle 23ai, and RAG pipeline insights."
+    "file": "2025-09-20-pack-recommendation-engine.md",
+    "title": "HeatWave Pack Recommendation Engine for BD Telcos",
+    "date": "2025-09-20",
+    "summary": "Step-by-step workflow that trains, scores, and explains telco packs with MySQL HeatWave AutoML plus in-database LLM."
   }
 ]
