@@ -68,7 +68,7 @@
 
     // Fetch helper
     async function fetchText(url){
-      const res = await fetch(url, { cache: 'no-store' });
+      const res = await fetch(url);
       if (!res.ok) throw new Error(`${res.status} ${url}`);
       return await res.text();
     }
@@ -86,30 +86,28 @@
       // Sort newest first by filename prefix
       manifest.sort((a,b)=> b.file.localeCompare(a.file));
 
-      posts = [];
-      for (const item of manifest) {
+      const loaded = await Promise.all(manifest.map(async (item) => {
         const file = item.file;
-        // Extract date from filename
         const m = file.match(/(\d{4}-\d{2}-\d{2})/);
         const dateStr = m ? m[1] : '1970-01-01';
         const date = new Date(dateStr);
 
-        // Load markdown to index content & get H1
         let md = '';
         try {
           md = await fetchText('./blogs/' + file);
         } catch(e) {
           console.warn('Failed to fetch post md:', file, e);
-          md = '';
+          return null;
         }
+
         const h1 = md.match(/^# (.+)/m);
         const title = (h1 ? h1[1] : slugToTitle(file)).trim();
-
-        // Simple content text for search (lowercased)
         const content = md.toLowerCase();
 
-        posts.push({ file, dateStr, date, title, content });
-      }
+        return { file, dateStr, date, title, content };
+      }));
+
+      posts = loaded.filter(Boolean);
       filtered = posts.slice();
       render();
     }

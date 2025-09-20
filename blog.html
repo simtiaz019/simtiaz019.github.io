@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Blog Post — Shariar Imtiaz</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
   <style>
     body { font-family: 'Inter', system-ui, sans-serif; }
     .prose { max-width: 65ch; }
@@ -38,7 +38,6 @@
   </footer>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
     const qs = (k) => new URLSearchParams(location.search).get(k);
 
     function slugToTitle(filename){
@@ -52,7 +51,7 @@
 
     async function loadManifest(){
       try{
-        const res = await fetch('./blogs/index.json', { cache: 'no-store' });
+        const res = await fetch('./blogs/index.json');
         manifest = res.ok ? await res.json() : [];
       }catch(e){ manifest = []; }
       // newest first by filename prefix
@@ -61,7 +60,7 @@
 
     async function loadPost(file){
       // fetch markdown
-      const res = await fetch('./blogs/'+file, { cache: 'no-store' });
+      const res = await fetch('./blogs/'+file);
       if(!res.ok){
         document.getElementById('blog').innerHTML = `
           <div class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
@@ -110,7 +109,8 @@
       }
     }
 
-    (async function(){
+    async function init(){
+      document.getElementById('year').textContent = new Date().getFullYear();
       const file = qs('file');
       if(!file){
         document.getElementById('blog').innerHTML = "<p class='text-red-600'>No blog specified. Use <code>?file=YYYY-MM-DD-slug.md</code></p>";
@@ -118,7 +118,9 @@
       }
       await loadManifest();
       await loadPost(file);
-    })();
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>

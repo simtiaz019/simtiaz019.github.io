@@ -61,8 +61,8 @@
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -232,53 +232,28 @@
   <script>
     const fallbackData={experience:[],projects:[],skills:[],education:{degrees:[],certs:[]}};
     const el=(tag,classes='',html='')=>{const e=document.createElement(tag);if(classes)e.className=classes;if(html)e.innerHTML=html;return e;};
-    function renderExperience(list){const wrap=document.getElementById('experience-list');wrap.innerHTML='';list.forEach(job=>{const item=el('div','relative ml-6 mb-10 hover-glow');item.appendChild(el('div','tl-dot absolute -left-1.5 w-3 h-3 rounded-full border border-white',''));const topRow=el('div','flex items-start gap-3');if(job.logo){const logo=el('img','w-10 h-10 object-contain rounded-md border border-slate-200 bg-white');logo.src=job.logo;logo.alt=job.company+' logo';topRow.appendChild(logo);}const titleWrap=el('div','');titleWrap.appendChild(el('h3','font-semibold text-slate-900',`<a href="${job.link}" target="_blank" rel="noopener">${job.role} — ${job.company}</a>`));titleWrap.appendChild(el('span','text-xs text-slate-500',`${job.period} · ${job.location}`));topRow.appendChild(titleWrap);item.appendChild(topRow);const ul=el('ul','mt-3 list-disc pl-5 text-sm text-slate-700 space-y-1');(job.bullets||[]).forEach(b=>ul.appendChild(el('li','',b)));item.appendChild(ul);wrap.appendChild(item);});}
+    function renderExperience(list){const wrap=document.getElementById('experience-list');wrap.innerHTML='';list.forEach(job=>{const item=el('div','relative ml-6 mb-10 hover-glow');item.appendChild(el('div','tl-dot absolute -left-1.5 w-3 h-3 rounded-full border border-white',''));const topRow=el('div','flex items-start gap-3');if(job.logo){const logo=el('img','w-10 h-10 object-contain rounded-md border border-slate-200 bg-white');logo.src=job.logo;logo.alt=job.company+' logo';logo.loading='lazy';logo.decoding='async';topRow.appendChild(logo);}const titleWrap=el('div','');titleWrap.appendChild(el('h3','font-semibold text-slate-900',`<a href="${job.link}" target="_blank" rel="noopener">${job.role} — ${job.company}</a>`));titleWrap.appendChild(el('span','text-xs text-slate-500',`${job.period} · ${job.location}`));topRow.appendChild(titleWrap);item.appendChild(topRow);const ul=el('ul','mt-3 list-disc pl-5 text-sm text-slate-700 space-y-1');(job.bullets||[]).forEach(b=>ul.appendChild(el('li','',b)));item.appendChild(ul);wrap.appendChild(item);});}
     function renderSkills(groups){const grid=document.getElementById('skills-grid');grid.innerHTML='';groups.forEach(g=>{const card=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');card.appendChild(el('h3','font-semibold text-slate-900',g.group));card.appendChild(el('p','mt-2 text-slate-700',g.items));grid.appendChild(card);});}
-    function renderEduCert(edu){const grid=document.getElementById('edu-cert');grid.innerHTML='';const eduCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');eduCard.appendChild(el('h3','font-semibold text-slate-900','Education'));const eduList=el('ul','mt-2 text-sm text-slate-700 space-y-3');(edu.degrees||[]).forEach(d=>{const li=el('li','flex items-center');if(d.logo){const logo=el('img','w-7 h-7 object-contain rounded mr-2 border border-slate-200 bg-white');logo.src=d.logo;logo.alt=(d.org||'')+' logo';li.appendChild(logo);}const t=`<a href="${d.link}" target="_blank" rel="noopener">${d.title} — ${d.org}</a> (${d.period})`;li.appendChild(el('span','',t));eduList.appendChild(li);});eduCard.appendChild(eduList);const certCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');certCard.appendChild(el('h3','font-semibold text-slate-900','Certifications'));const certList=el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1');(edu.certs||[]).forEach(c=>certList.appendChild(el('li','',`${c.title} (${c.period})`)));certCard.appendChild(certList);grid.appendChild(eduCard);grid.appendChild(certCard);}
+    function renderEduCert(edu){const grid=document.getElementById('edu-cert');grid.innerHTML='';const eduCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');eduCard.appendChild(el('h3','font-semibold text-slate-900','Education'));const eduList=el('ul','mt-2 text-sm text-slate-700 space-y-3');(edu.degrees||[]).forEach(d=>{const li=el('li','flex items-center');if(d.logo){const logo=el('img','w-7 h-7 object-contain rounded mr-2 border border-slate-200 bg-white');logo.src=d.logo;logo.alt=(d.org||'')+' logo';logo.loading='lazy';logo.decoding='async';li.appendChild(logo);}const t=`<a href="${d.link}" target="_blank" rel="noopener">${d.title} — ${d.org}</a> (${d.period})`;li.appendChild(el('span','',t));eduList.appendChild(li);});eduCard.appendChild(eduList);const certCard=el('div','rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover-glow');certCard.appendChild(el('h3','font-semibold text-slate-900','Certifications'));const certList=el('ul','mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1');(edu.certs||[]).forEach(c=>certList.appendChild(el('li','',`${c.title} (${c.period})`)));certCard.appendChild(certList);grid.appendChild(eduCard);grid.appendChild(certCard);}
     function renderAbout(about={}){const sumEl=document.getElementById('about-summary');if(sumEl)sumEl.textContent=about.summary||'';const hiEl=document.getElementById('about-highlights');if(hiEl){hiEl.innerHTML='';(about.highlights||[]).forEach(item=>{const li=document.createElement('li');li.textContent=item;hiEl.appendChild(li);});}}
 
     const messages={home:"Hey! I’m Shariar. Scroll down and I’ll guide you through my work.",about:"A quick intro, highlights, and a few fast facts about me.",experience:"Here’s a quick tour of my recent roles and impact.",projects:"Some projects I’m proud of—high-scale data, streaming, and analytics.",skills:"My core toolbox across data engineering, cloud, and databases.",education:"Degrees & certifications that back up the hands-on work.",contact:"Let’s connect—email, phone, or LinkedIn works best."};
     const bubble=document.getElementById('coach-bubble');const coachText=document.getElementById('coach-text');const avatarBtn=document.getElementById('avatar');
-    const sections=['home','about','experience','projects','skills','education','contact'].map(id=>({id,el:document.getElementById(id)}));
+    const sections=['home','about','experience','projects','skills','education','contact'].map(id=>({id,el:document.getElementById(id)})).filter(s=>s.el);
 
     let typeTimer;const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function typeMessage(msg){clearInterval(typeTimer);coachText.textContent='';if(prefersReduced){coachText.textContent=msg;return;}let i=0;typeTimer=setInterval(()=>{coachText.textContent+=msg.charAt(i++);if(i>=msg.length)clearInterval(typeTimer);},12);}
 
     const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){const id=e.target.id;typeMessage(messages[id]||'');document.querySelectorAll('.nav-dot').forEach(dot=>dot.classList.remove('bg-white','bg-indigo-600','active-dot'));const link=document.querySelector(`a[href="#${id}"] .nav-dot`);if(link)link.classList.add('bg-white','active-dot');}});},{threshold:0.5});
 
-    async function init(){document.getElementById('year').textContent=new Date().getFullYear();let data;try{const res=await fetch('./data.json',{cache:'no-store'});data=res.ok?await res.json():fallbackData;}catch(e){data=fallbackData}renderExperience(data.experience||[]);renderProjects(data.projects||[]);renderSkills(data.skills||[]);renderEduCert(data.education||{degrees:[],certs:[]});renderAbout(data.about||{});if(data.cv_url){const cvBtn=document.getElementById('cv-button');if(cvBtn)cvBtn.href=data.cv_url;}sections.forEach(s=>io.observe(s.el));}init();
+    async function init(){document.getElementById('year').textContent=new Date().getFullYear();let data;try{const res=await fetch('./data.json');data=res.ok?await res.json():fallbackData;}catch(e){data=fallbackData}renderExperience(data.experience||[]);renderProjects(data.projects||[]);renderSkills(data.skills||[]);renderEduCert(data.education||{degrees:[],certs:[]});renderAbout(data.about||{});if(data.cv_url){const cvBtn=document.getElementById('cv-button');if(cvBtn)cvBtn.href=data.cv_url;}sections.forEach(s=>io.observe(s.el));}
+    window.addEventListener('DOMContentLoaded', init);
 
-    function renderBlock(block){
-  switch(block.type){
-      case 'h2': return Object.assign(document.createElement('h2'),{className:'text-xl font-bold text-slate-900 mt-6',textContent:block.text});
-      case 'p': return Object.assign(document.createElement('p'),{className:'text-slate-700 leading-7',textContent:block.text});
-      case 'img': {
-        const img=document.createElement('img');
-        img.src=block.src; img.alt=block.alt||''; img.className='rounded-xl shadow border border-slate-200';
-        return img;
-      }
-      case 'code': {
-        const pre=document.createElement('pre'); const code=document.createElement('code');
-        code.className=`language-${block.language||'plaintext'}`; code.textContent=block.code||'';
-        pre.appendChild(code); requestAnimationFrame(()=>hljs.highlightElement(code));
-        return pre;
-      }
-      case 'list': {
-        const ul=document.createElement('ul'); ul.className='list-disc pl-6 space-y-1 text-slate-700';
-        (block.items||[]).forEach(it=>{const li=document.createElement('li'); li.textContent=it; ul.appendChild(li);});
-        return ul;
-      }
-      default: return document.createTextNode('');
-    }
-  }
-
-  document.getElementById('close-modal').addEventListener('click',()=>{
-    const modal=document.getElementById('project-modal');
-    modal.classList.add('hidden'); modal.classList.remove('flex');
-  });
   </script>
 
   <script>
+    const projectContentCache = new Map();
+
     // Renders project cards (unchanged styles)
     function renderProjects(items){
       const grid = document.getElementById('projects-grid');
@@ -290,10 +265,23 @@
           <h3 class="font-semibold text-slate-900">${p.title}</h3>
           <p class="mt-2 text-sm text-slate-700">${p.summary || ''}</p>
         `;
-        // NEW: silent open—only if markdown exists
+        // Silent open—only if markdown exists
         card.addEventListener('click', () => handleProjectClick(p));
         grid.appendChild(card);
       });
+    }
+
+    function openProjectModal(project, markdown){
+      document.getElementById('modal-title').textContent = project.title || '';
+      document.getElementById('modal-summary').textContent = project.summary || '';
+      const contentEl = document.getElementById('modal-content');
+      contentEl.innerHTML = marked.parse(markdown);
+      requestAnimationFrame(()=> {
+        if(window.hljs){
+          contentEl.querySelectorAll('pre code').forEach(window.hljs.highlightElement);
+        }
+      });
+      showModal();
     }
 
     // Show/hide helpers (unchanged)
@@ -307,14 +295,21 @@
       document.addEventListener('keydown', e=>{ if(e.key==='Escape') hideModal(); });
     });
 
-    // NEW: Only open modal if the MD file is found and loaded
+    // Only open modal if the MD file is found and loaded
     async function handleProjectClick(project){
-      const { slug, title, summary } = project;
+      const { slug } = project;
+      if(!slug) return;
+
+      if(projectContentCache.has(slug)){
+        openProjectModal(project, projectContentCache.get(slug));
+        return;
+      }
+
       const url = `./projects/${encodeURIComponent(slug)}.md`;
 
       let res;
       try {
-        res = await fetch(url, { cache: 'no-store' });
+        res = await fetch(url);
       } catch {
         // network error — do nothing (silent)
         return;
@@ -325,15 +320,8 @@
       }
 
       const md = await res.text();
-      // populate and show modal
-      document.getElementById('modal-title').textContent = title || '';
-      document.getElementById('modal-summary').textContent = summary || '';
-      const contentEl = document.getElementById('modal-content');
-      contentEl.innerHTML = marked.parse(md);
-      requestAnimationFrame(()=> {
-        contentEl.querySelectorAll('pre code').forEach(hljs.highlightElement);
-      });
-      showModal();
+      projectContentCache.set(slug, md);
+      openProjectModal(project, md);
     }
   </script>
 
@@ -400,14 +388,5 @@
       <article id="modal-content" class="mt-6 prose prose-slate max-w-none"></article>
     </div>
   </div>
-
-
-
-  <!-- highlight.js for code syntax -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
-
-
 </body>
 </html>
